@@ -5,9 +5,9 @@ package others.exceptions;
  * @time 08:26:07
  * @author asael
  */
-public class InputFileException extends Exception {
+public class FileInputException extends Exception {
 
-    public InputFileException(String message) {
+    public FileInputException(String message) {
         super(message);
     }
 

@@ -21,7 +21,7 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
     private EmpleadoDAOImpl() {
     }
 
-    public static EmpleadoDAOImpl getGerenteDAO() {
+    public static EmpleadoDAOImpl getEmpleadoDAO() {
         if (empleadoDAO == null) {
             empleadoDAO = new EmpleadoDAOImpl();
         }
