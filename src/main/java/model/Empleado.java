@@ -12,6 +12,11 @@ public class Empleado extends Usuario {
     public Empleado() {
     }
 
+    public Empleado(Turno turno, String codigo) {
+        super(codigo);
+        this.turno = turno;
+    }
+
     public Turno getTurno() {
         return turno;
     }

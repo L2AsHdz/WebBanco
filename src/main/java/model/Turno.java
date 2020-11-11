@@ -17,6 +17,10 @@ public class Turno {
     public Turno() {
     }
 
+    public Turno(String nombre) {
+        this.id = nombre.equalsIgnoreCase("MATUTINO") ? 1 : 2;
+    }
+
     public int getId() {
         return id;
     }

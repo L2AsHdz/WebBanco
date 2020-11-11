@@ -1,4 +1,4 @@
-package datos.gerente;
+package datos.empleado;
 
 import datos.CRUD;
 import model.Empleado;

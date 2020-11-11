@@ -21,6 +21,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import static web.lecturaArchivo.LecturaGerente.leerGerente;
 
 /**
  * @date 11/11/2020
@@ -41,11 +42,12 @@ public class LecturaArchivoServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    //Procesa la solicitud HTML ya sea desde un metodo POST o GET
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part filePart = request.getPart("archivoEntrada");
-        
         List<Part> fileParts = (List<Part>)request.getParts();
         
+        //Guarda los archivos en el servidor
         fileParts.forEach(part ->{
             String name = Paths.get(part.getSubmittedFileName()).getFileName().toString();
             guardarArchivo(part, name);
@@ -58,8 +60,9 @@ public class LecturaArchivoServlet extends HttpServlet {
             request.setAttribute("nice", "La lectura del archivo finalizo sin ningun error");
         } else {
             request.setAttribute("errores", errores);
+            errores.forEach(e -> System.out.println(e));
         }
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
     
     private void guardarArchivo(Part filePart, String nombreArchivo) {
@@ -87,10 +90,10 @@ public class LecturaArchivoServlet extends HttpServlet {
             //Crear documento
             Document doc = builder.parse(fileIS);
 
-            /*//Leer etiqueta gerente
+            //Leer etiqueta gerente
             errores.addAll(leerGerente(doc));
 
-            //Leer etiqueta cajero
+            /*//Leer etiqueta cajero
             errores.addAll(leerCajero(doc));
 
             //Leer etiqueta cliente

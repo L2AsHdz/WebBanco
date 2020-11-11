@@ -36,7 +36,21 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public void create(Usuario user) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "INSERT INTO usuario VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, user.getCodigo());
+            ps.setString(2, user.getNombre());
+            ps.setString(3, user.getDireccion());
+            ps.setString(4, user.getNoIdentificacion());
+            ps.setString(5, user.getSexo());
+            ps.setString(6, user.getEncryptPassword());
+            ps.setInt(7, user.getTipoUsuario());
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override
@@ -85,33 +99,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ps.setString(4, user.getSexo());
             ps.setInt(5, user.getTipoUsuario());
             ps.setString(6, user.getEncryptPassword());
-            ps.executeUpdate();
-            
-            ResultSet rs = ps.getGeneratedKeys();
-            
-            if (rs.next()) {
-                codigoGenerado = rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        }
-        
-        return codigoGenerado;
-    }
-    
-    @Override
-    public int crear(int codigo, Usuario user) {
-        String sql = "INSERT INTO usuario VALUES (?, ?, ?, ?, ?, ?, ?)";
-        int codigoGenerado = 0;
-
-        try ( PreparedStatement ps = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, codigo);
-            ps.setString(2, user.getNombre());
-            ps.setString(3, user.getDireccion());
-            ps.setString(4, user.getNoIdentificacion());
-            ps.setString(5, user.getSexo());
-            ps.setString(6, user.getEncryptPassword());
-            ps.setInt(7, user.getTipoUsuario());
             ps.executeUpdate();
             
             ResultSet rs = ps.getGeneratedKeys();
