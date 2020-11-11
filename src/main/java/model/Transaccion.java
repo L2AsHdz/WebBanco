@@ -10,7 +10,7 @@ import java.time.LocalTime;
  */
 public class Transaccion {
 
-    private String codigo;
+    private int codigo;
     private Cuenta cuenta;
     private String tipo;
     private LocalDate fecha;
@@ -22,11 +22,11 @@ public class Transaccion {
     public Transaccion() {
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

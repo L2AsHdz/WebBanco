@@ -43,7 +43,6 @@ public class LecturaArchivoServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part filePart = request.getPart("archivoEntrada");
-        String inputFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         
         List<Part> fileParts = (List<Part>)request.getParts();
         
@@ -52,9 +51,15 @@ public class LecturaArchivoServlet extends HttpServlet {
             guardarArchivo(part, name);
         });
         
-        guardarArchivo(filePart, inputFileName);
+        //Leer datos del archivo XML
+        List<String> errores = leerArchivoXML(filePart.getInputStream());
         
-        
+        if (errores.isEmpty()) {
+            request.setAttribute("nice", "La lectura del archivo finalizo sin ningun error");
+        } else {
+            request.setAttribute("errores", errores);
+        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
     
     private void guardarArchivo(Part filePart, String nombreArchivo) {
@@ -69,7 +74,7 @@ public class LecturaArchivoServlet extends HttpServlet {
         }
     }
     
-    private List<String> leerArchivoXML(String nombreArchivo) {
+    private List<String> leerArchivoXML(InputStream fileIS) {
 
         //Errores en la lectura del archivo
         List<String> errores = new ArrayList<>();
@@ -80,8 +85,7 @@ public class LecturaArchivoServlet extends HttpServlet {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             //Crear documento
-            File xml = new File("/home/asael/uploads/datosEntrada/" + nombreArchivo);
-            Document doc = builder.parse(xml);
+            Document doc = builder.parse(fileIS);
 
             /*//Leer etiqueta gerente
             errores.addAll(leerGerente(doc));

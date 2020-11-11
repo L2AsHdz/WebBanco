@@ -9,7 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class Usuario {
     
-    private String codigo;
+    private int codigo;
     private String nombre;
     private String direccion;
     private String noIdentificacion;
@@ -20,11 +20,11 @@ public class Usuario {
     public Usuario() {
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

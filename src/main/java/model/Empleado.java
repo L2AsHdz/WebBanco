@@ -7,18 +7,9 @@ package model;
  */
 public class Empleado extends Usuario {
 
-    private String codUsuario;
     private Turno turno;
 
     public Empleado() {
-    }
-
-    public String getCodUsuario() {
-        return codUsuario;
-    }
-
-    public void setCodUsuario(String codUsuario) {
-        this.codUsuario = codUsuario;
     }
 
     public Turno getTurno() {

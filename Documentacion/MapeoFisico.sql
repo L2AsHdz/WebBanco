@@ -1,6 +1,6 @@
-DROP SCHEMA WebBanco
+DROP SCHEMA WebBanco;
 CREATE SCHEMA WebBanco;
-USE WebBanco ;
+USE WebBanco;
 
 CREATE TABLE usuario (
   codigo INT NOT NULL AUTO_INCREMENT,
@@ -135,3 +135,11 @@ CREATE TABLE solicitudAsociacion (
     REFERENCES cuenta (codigo)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT);
+    
+INSERT INTO turno VALUES(1, 'Matutino', '6:00', '14:30');
+INSERT INTO turno VALUES(2, 'Vespertino', '13:00', '22:00');
+INSERT INTO turno VALUES(3, 'Toda Hora', '00:00', '23:59:59');
+INSERT INTO usuario VALUES (101, 'Banca Virtual', 'dir101', '101', 'na', '73158c11b29e328aae7778bda4dfbdc8', 2);
+INSERT INTO empleado VALUES (101, 3);
+    
+    

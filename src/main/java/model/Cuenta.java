@@ -9,7 +9,7 @@ import java.time.LocalDate;
  */
 public class Cuenta {
 
-    private String codigo;
+    private int codigo;
     private Cliente cliente;
     private LocalDate fechaCreacion;
     private float saldo;
@@ -17,11 +17,11 @@ public class Cuenta {
     public Cuenta() {
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
