@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Empleado;
+import model.Turno;
 
 /**
  * @date 11/11/2020
@@ -77,6 +79,34 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
             ex.printStackTrace(System.out);
         }
         return flag;
+    }
+
+    @Override
+    public List<Empleado> getListGerentes() {
+        String sql = "SELECT u.*, e.idTurno, t.nombre turno FROM usuario u INNER JOIN "
+                + "empleado e ON u.codigo=e.codigoUsuario INNER JOIN turno t ON "
+                + "e.idTurno=t.id WHERE u.tipoUsuario=1";
+        List<Empleado> gerentes = null;
+
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
+                ResultSet rs = declaracion.executeQuery()) {
+            gerentes = new ArrayList();
+
+            while (rs.next()) {
+                Empleado gerente = new Empleado();
+                gerente.setCodigo(rs.getInt("codigo"));
+                gerente.setNombre(rs.getString("nombre"));
+                gerente.setDireccion(rs.getString("direccion"));
+                gerente.setNoIdentificacion(rs.getString("noIdentificacion"));
+                gerente.setSexo(rs.getString("sexo"));
+                gerente.setTipoUsuario(rs.getInt("tipoUsuario"));
+                gerente.setTurno(new Turno(rs.getString("turno")));
+                gerentes.add(gerente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return gerentes;
     }
 
 }

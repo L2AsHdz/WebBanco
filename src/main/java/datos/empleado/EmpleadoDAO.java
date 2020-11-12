@@ -1,6 +1,7 @@
 package datos.empleado;
 
 import datos.CRUD;
+import java.util.List;
 import model.Empleado;
 
 /**
@@ -10,4 +11,5 @@ import model.Empleado;
  */
 public interface EmpleadoDAO extends CRUD<Empleado> {
 
+    List<Empleado> getListGerentes();
 }

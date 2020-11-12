@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import model.Usuario;
 
@@ -54,8 +55,28 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public Usuario getObject(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario getObject(String codigo) {
+        String sql = "SELECT * FROM usuario WHERE codigo = ?";
+
+        Usuario usuario = null;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codigo));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    usuario = new Usuario(
+                            rs.getString("codigo"), 
+                            rs.getString("nombre"), 
+                            rs.getString("direccion"), 
+                            rs.getString("noIdentificacion"), 
+                            rs.getString("sexo"), 
+                            rs.getInt("tipoUsuario"), 
+                            rs.getString("password"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return usuario;
     }
 
     @Override
