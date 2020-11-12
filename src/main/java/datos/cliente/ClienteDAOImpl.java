@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Cliente;
 
@@ -31,7 +32,27 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public List<Cliente> getList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT u.*, c.birth FROM usuario u INNER JOIN cliente c ON u.codigo=c.codigoUsuario";
+        List<Cliente> clientes = null;
+
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
+                ResultSet rs = declaracion.executeQuery()) {
+            clientes = new ArrayList();
+
+            while (rs.next()) {
+                Cliente gerente = new Cliente(
+                        rs.getString("birth"), 
+                        rs.getString("codigo"), 
+                        rs.getString("nombre"), 
+                        rs.getString("direccion"), 
+                        rs.getString("noIdentificacion"), 
+                        rs.getString("sexo"));
+                clientes.add(gerente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return clientes;
     }
 
     @Override

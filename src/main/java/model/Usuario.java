@@ -19,6 +19,14 @@ public class Usuario {
 
     public Usuario() {
     }
+    
+    public Usuario(String codigo, String nombre, String direccion, String noIdentificacion, String sexo) {
+        this.codigo = Integer.parseInt(codigo);
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.noIdentificacion = noIdentificacion;
+        this.sexo = sexo;
+    }
 
     public Usuario(String codigo, String nombre, String direccion, String noIdentificacion, String sexo, int tipoUsuario, String password) {
         this.codigo = Integer.parseInt(codigo);

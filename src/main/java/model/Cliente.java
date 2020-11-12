@@ -47,6 +47,11 @@ public class Cliente extends Usuario {
         }
     }
 
+    public Cliente(String birth, String codigo, String nombre, String direccion, String noIdentificacion, String sexo) {
+        super(codigo, nombre, direccion, noIdentificacion, sexo);
+        this.birth = LocalDate.parse(birth);
+    }
+
     public LocalDate getBirth() {
         return birth;
     }

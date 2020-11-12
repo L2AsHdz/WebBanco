@@ -8,10 +8,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Holi Gerente</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${user.codigo} - ${user.nombre}</title>
+
+        <!--CSS-->
+        <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
     </head>
     <body>
-        <h1>Inicio Gerente</h1>
+        <!-- Barra de navegacion -->
+        <jsp:include page="/WEB-INF/gerente/navBarGerente.jsp"/>
+
+        <!--JS--> 
+        <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
     </body>
 </html>
