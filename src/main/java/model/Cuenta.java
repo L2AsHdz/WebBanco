@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @date 10/11/2020
@@ -15,6 +16,30 @@ public class Cuenta {
     private float saldo;
 
     public Cuenta() {
+    }
+
+    public Cuenta(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public Cuenta(String codigo, Cliente cliente, String fechaCreacion, String saldo) {
+        this.codigo = Integer.parseInt(codigo);
+        this.cliente = cliente;
+        this.saldo = Float.parseFloat(saldo);
+        
+        try {
+            this.fechaCreacion = LocalDate.parse(fechaCreacion);
+        } catch (Exception e) {
+            try {
+                this.fechaCreacion = LocalDate.parse(fechaCreacion, DateTimeFormatter.ofPattern("yyyy-M-d"));
+            } catch (Exception ex) {
+                try {
+                    this.fechaCreacion = LocalDate.parse(fechaCreacion, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                } catch (Exception exx) {
+                    e.printStackTrace(System.out);
+                }
+            }
+        }
     }
 
     public int getCodigo() {

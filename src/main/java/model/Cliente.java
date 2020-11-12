@@ -19,6 +19,10 @@ public class Cliente extends Usuario {
     public Cliente() {
     }
 
+    public Cliente(String codigo) {
+        super(codigo);
+    }
+
     public Cliente(String birth, String dpiPDF, String codigo) {
         super(codigo);
         
