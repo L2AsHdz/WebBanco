@@ -79,8 +79,19 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public void update(Usuario t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Usuario user) {
+        String sql = "UPDATE usuario SET nombre = ?, direccion = ?, noIdentificacion = ?,"
+                + "sexo = ? WHERE codigo = ?";
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, user.getNombre());
+            ps.setString(2, user.getDireccion());
+            ps.setString(3, user.getNoIdentificacion());
+            ps.setString(4, user.getSexo());
+            ps.setInt(5, user.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override

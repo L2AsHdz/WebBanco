@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -7,7 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @time 21:19:31
  * @author asael
  */
-public class Usuario {
+public class Usuario implements Serializable {
     
     private int codigo;
     private String nombre;

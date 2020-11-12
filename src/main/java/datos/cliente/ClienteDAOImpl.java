@@ -1,6 +1,7 @@
 package datos.cliente;
 
 import datos.Conexion;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public List<Cliente> getList() {
-        String sql = "SELECT u.*, c.birth FROM usuario u INNER JOIN cliente c ON u.codigo=c.codigoUsuario";
+        String sql = "SELECT u.*, c.* FROM usuario u INNER JOIN cliente c ON u.codigo=c.codigoUsuario";
         List<Cliente> clientes = null;
 
         try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
@@ -41,7 +42,8 @@ public class ClienteDAOImpl implements ClienteDAO {
 
             while (rs.next()) {
                 Cliente gerente = new Cliente(
-                        rs.getString("birth"), 
+                        rs.getString("birth"),
+                        rs.getBinaryStream("pdfDPI"),
                         rs.getString("codigo"), 
                         rs.getString("nombre"), 
                         rs.getString("direccion"), 
@@ -70,13 +72,46 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public Cliente getObject(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cliente getObject(String codigo) {
+        String sql = "SELECT u.*, c.* FROM usuario u INNER JOIN cliente c ON u.codigo=c.codigoUsuario WHERE u.codigo = ?";
+
+        Cliente cliente = null;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codigo));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cliente = new Cliente(
+                            rs.getString("birth"),
+                            rs.getBinaryStream("pdfDPI"),
+                            rs.getString("codigo"), 
+                            rs.getString("nombre"), 
+                            rs.getString("direccion"), 
+                            rs.getString("noIdentificacion"), 
+                            rs.getString("sexo"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return cliente;
     }
 
     @Override
-    public void update(Cliente t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Cliente c) {
+        String sql = "UPDATE cliente SET birth = ?, pdfDPI = ? WHERE codigoUsuario = ?";
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, c.getBirth().toString());
+            if (c.getDpiPDF().available() == 0) {
+                ps.setBinaryStream(2, getObject(String.valueOf(c.getCodigo())).getDpiPDF());
+            } else {
+                ps.setBinaryStream(2, c.getDpiPDF());
+                System.out.println("no entra al if");
+            }
+            ps.setInt(3, c.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException | IOException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import datos.cliente.ClienteDAOImpl;
 import datos.usuario.UsuarioDAO;
 import datos.usuario.UsuarioDAOImpl;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -40,32 +41,52 @@ public class ClienteServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
+        
+        String nombre = request.getParameter("nombre");
+        String direccion = request.getParameter("direccion");
+        String birth = request.getParameter("birth");
+        String noIdentificacion = request.getParameter("noIdentificacion");
+        String sexo = request.getParameter("sexo");
+        String password = request.getParameter("password");
+        InputStream dpiPDF;
+        try {
+            dpiPDF = request.getPart("dpiPDF").getInputStream();
+        } catch (IOException | ServletException e) {
+            dpiPDF = null;
+        }
 
         switch (accion) {
             case "listar" -> {
-                listar(request, response);
+                listar(request);
                 response.sendRedirect("gerente/clientes/listClientes.jsp");
             }
             case "agregar" -> {
-                String nombre = request.getParameter("nombre");
-                String direccion = request.getParameter("direccion");
-                String birth = request.getParameter("birth");
-                String noIdentificacion = request.getParameter("noIdentificacion");
-                Part dpiPDF = request.getPart("dpiPDF");
-                String sexo = request.getParameter("sexo");
-                String password = request.getParameter("password");
-
                 String codigo = usuarioDAO.crear(new Usuario(nombre, direccion, noIdentificacion, sexo, 3, password));
-                clienteDAO.create(new Cliente(codigo, birth, dpiPDF.getInputStream()));
+                clienteDAO.create(new Cliente(codigo, birth, dpiPDF));
 
                 request.setAttribute("success", "El cliente se ingreso correctamente");
-                listar(request, response);
+                listar(request);
+                request.getRequestDispatcher("gerente/clientes/listClientes.jsp").forward(request, response);
+            }
+            case "editar" -> {
+                String codigo = request.getParameter("codigo");
+                Cliente cliente = clienteDAO.getObject(codigo);
+                request.setAttribute("cliente", cliente);
+                request.getRequestDispatcher("gerente/clientes/listClientes.jsp").forward(request, response);
+            }
+            case "update" -> {
+                String codigo = request.getParameter("codigo");
+                usuarioDAO.update(new Usuario(codigo, nombre, direccion, noIdentificacion, sexo));
+                clienteDAO.update(new Cliente(codigo, birth, dpiPDF));
+                
+                request.setAttribute("success", "Los datos del cliente se modificaron");
+                listar(request);
                 request.getRequestDispatcher("gerente/clientes/listClientes.jsp").forward(request, response);
             }
         }
     }
 
-    private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void listar(HttpServletRequest request) {
         List<Cliente> clientes = clienteDAO.getList();
         request.getSession().setAttribute("clientes", clientes);
     }

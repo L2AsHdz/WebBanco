@@ -3,6 +3,7 @@ package model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -11,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  * @time 21:36:59
  * @author asael
  */
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Serializable {
 
     private LocalDate birth;
     private InputStream dpiPDF;
@@ -52,9 +53,10 @@ public class Cliente extends Usuario {
         }
     }
 
-    public Cliente(String birth, String codigo, String nombre, String direccion, String noIdentificacion, String sexo) {
+    public Cliente(String birth, InputStream dpiPDF, String codigo, String nombre, String direccion, String noIdentificacion, String sexo) {
         super(codigo, nombre, direccion, noIdentificacion, sexo);
         this.birth = LocalDate.parse(birth);
+        this.dpiPDF = dpiPDF;
     }
 
     public LocalDate getBirth() {
