@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @date 10/11/2020
@@ -20,6 +21,40 @@ public class Transaccion {
     private float saldoCuenta;
 
     public Transaccion() {
+    }
+
+    public Transaccion(Cuenta cuenta, String tipo, LocalDate fecha, LocalTime hora, float monto, Empleado cajero, float saldoCuenta) {
+        this.cuenta = cuenta;
+        this.tipo = tipo;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.monto = monto;
+        this.cajero = cajero;
+        this.saldoCuenta = saldoCuenta;
+    }
+
+    public Transaccion(String codigo, Cuenta cuenta, String tipo, String fecha, String hora, String monto, Empleado cajero, String saldoCuenta) {
+        this.codigo = Integer.parseInt(codigo);
+        this.cuenta = cuenta;
+        this.tipo = tipo;
+        this.monto = Float.parseFloat(monto);
+        this.cajero = cajero;
+        this.saldoCuenta = Float.parseFloat(saldoCuenta);
+        this.hora = LocalTime.parse(hora);
+
+        try {
+            this.fecha = LocalDate.parse(fecha);
+        } catch (Exception e) {
+            try {
+                this.fecha = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("yyyy-M-d"));
+            } catch (Exception ex) {
+                try {
+                    this.fecha = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                } catch (Exception exx) {
+                    e.printStackTrace(System.out);
+                }
+            }
+        }
     }
 
     public int getCodigo() {

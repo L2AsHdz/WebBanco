@@ -10,5 +10,5 @@ import model.Transaccion;
  */
 public interface TransaccionDAO extends CRUD<Transaccion> {
 
-    void create(int codigo, Transaccion t);
+    void create(String codigo, Transaccion t);
 }

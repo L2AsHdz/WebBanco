@@ -18,8 +18,8 @@ public class Cuenta {
     public Cuenta() {
     }
 
-    public Cuenta(int codigo) {
-        this.codigo = codigo;
+    public Cuenta(String codigo) {
+        this.codigo = Integer.parseInt(codigo);
     }
 
     public Cuenta(String codigo, Cliente cliente, String fechaCreacion, String saldo) {

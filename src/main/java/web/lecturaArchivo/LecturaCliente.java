@@ -2,6 +2,7 @@ package web.lecturaArchivo;
 
 import datos.CRUD;
 import datos.cliente.ClienteDAOImpl;
+import datos.cuenta.CuentaDAO;
 import datos.cuenta.CuentaDAOImpl;
 import datos.usuario.UsuarioDAOImpl;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class LecturaCliente {
 
     private static final CRUD<Usuario> usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
     private static final CRUD<Cliente> clienteDAO = ClienteDAOImpl.getClienteDAO();
-    private static final CRUD<Cuenta> cuentaDAO = CuentaDAOImpl.getCuentaDAO();
+    private static final CuentaDAO cuentaDAO = CuentaDAOImpl.getCuentaDAO();
 
     /**
      * Lee la etiqueta CAJERO del archivo de entrada, si no hay errores guarda
@@ -86,7 +87,7 @@ public class LecturaCliente {
 
                 try {
                     Cuenta cuenta = validarCuenta(codCuenta, codigo, fechaC, saldo, i, j);
-                    cuentaDAO.create(cuenta);
+                    cuentaDAO.create(codCuenta, cuenta);
                 } catch (FileInputException e) {
                     errores.add(e.getMessage());
                 }

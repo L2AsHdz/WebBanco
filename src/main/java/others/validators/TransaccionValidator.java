@@ -5,6 +5,7 @@ import datos.cuenta.CuentaDAOImpl;
 import datos.transaccion.TransaccionDAOImpl;
 import datos.usuario.UsuarioDAOImpl;
 import model.Cuenta;
+import model.Empleado;
 import model.Transaccion;
 import model.Usuario;
 import others.exceptions.FileInputException;
@@ -20,9 +21,10 @@ public class TransaccionValidator extends Validator {
     private static final CRUD<Cuenta> cuentaDAO = CuentaDAOImpl.getCuentaDAO();
     private static final CRUD<Usuario> usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
 
-    public static void validarTransaccion(String codigo, String cuenta, String fecha,
+    public static Transaccion validarTransaccion(String codigo, String cuenta, String fecha,
             String hora, String tipo, String monto, String cajero, int i) throws FileInputException {
 
+        Transaccion transaccion = null;
         String etiqueta = "Etiqueta transaccion No. " + (i + 1);
         if (codigo.trim().isEmpty() || cuenta.trim().isEmpty() || fecha.trim().isEmpty()
                 || hora.trim().isEmpty() || tipo.trim().isEmpty() || monto.trim().isEmpty()
@@ -44,7 +46,9 @@ public class TransaccionValidator extends Validator {
             throw new FileInputException(etiqueta + ": El cajero al que hace referencia no existe");
         } else if (transaccionDAO.exists(codigo)) {
             throw new FileInputException(etiqueta + ": La transaccion con codigo " + codigo + " ya existe");
+        } else {
+            transaccion = new Transaccion(codigo, new Cuenta(cuenta), tipo, fecha, hora, monto, new Empleado(cajero), "0");
         }
-
+        return transaccion;
     }
 }

@@ -23,6 +23,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import static web.lecturaArchivo.LecturaCliente.leerCliente;
 import static web.lecturaArchivo.LecturaEmpleado.leerEmpleado;
+import static web.lecturaArchivo.LecturaTransaccion.leerTransaccion;
 
 /**
  * @date 11/11/2020
@@ -61,7 +62,6 @@ public class LecturaArchivoServlet extends HttpServlet {
             request.setAttribute("nice", "La lectura del archivo finalizo sin ningun error");
         } else {
             request.setAttribute("errores", errores);
-            errores.forEach(e -> System.out.println(e));
         }
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
@@ -100,8 +100,8 @@ public class LecturaArchivoServlet extends HttpServlet {
             //Leer etiqueta cliente con sus cuentas
             errores.addAll(leerCliente(doc));
 
-            /*//Leer etiqueta transaccion
-            errores.addAll(leerTransaccion(doc));*/
+            //Leer etiqueta transaccion
+            errores.addAll(leerTransaccion(doc));
 
         } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {
             ex.printStackTrace(System.out);

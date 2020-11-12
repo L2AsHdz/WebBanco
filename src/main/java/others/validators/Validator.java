@@ -55,15 +55,10 @@ public class Validator {
     //Verifica si el formato de la hora es correcto
     public static boolean isHora(String h) {
         try {
-            LocalTime.parse(h, DateTimeFormatter.ofPattern("HH:mm"));
+            LocalTime.parse(h);
             return true;
         } catch (Exception e) {
-            try {
-                LocalTime.parse(h, DateTimeFormatter.ofPattern("H:mm"));
-                return true;
-            } catch (Exception ex) {
-                return false;
-            }
+            return false;
         }
     }
 

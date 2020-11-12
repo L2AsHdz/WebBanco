@@ -54,11 +54,11 @@ public class TransaccionDAOImpl implements TransaccionDAO {
     }
     
     @Override
-    public void create(int codigo, Transaccion transc) {
+    public void create(String codigo, Transaccion transc) {
         String sql = "INSERT INTO transaccion VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
+            ps.setInt(1, Integer.parseInt(codigo));
             ps.setInt(2, transc.getCuenta().getCodigo());
             ps.setString(3, transc.getTipo());
             ps.setString(4, transc.getFecha().toString());

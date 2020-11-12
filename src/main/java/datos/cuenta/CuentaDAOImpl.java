@@ -49,11 +49,11 @@ public class CuentaDAOImpl implements CuentaDAO {
     }
     
     @Override
-    public void create(int codigo, Cuenta cuenta) {
+    public void create(String codigo, Cuenta cuenta) {
         String sql = "INSERT INTO cuenta VALUES (?, ?, ?, ?)";
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
+            ps.setInt(1, Integer.parseInt(codigo));
             ps.setInt(2, cuenta.getCliente().getCodigo());
             ps.setString(3, cuenta.getFechaCreacion().toString());
             ps.setFloat(4, cuenta.getSaldo());
