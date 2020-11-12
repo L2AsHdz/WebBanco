@@ -58,12 +58,13 @@ public class LecturaArchivoServlet extends HttpServlet {
         //Leer datos del archivo XML
         List<String> errores = leerArchivoXML(filePart.getInputStream());
         
+        
         if (errores.isEmpty()) {
             request.setAttribute("nice", "La lectura del archivo finalizo sin ningun error");
         } else {
             request.setAttribute("errores", errores);
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
     
     private void guardarArchivo(Part filePart, String nombreArchivo) {
