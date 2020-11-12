@@ -107,10 +107,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public int crear(Usuario user) {
+    public String crear(Usuario user) {
         String sql = "INSERT INTO usuario(nombre, direccion, noIdentificacion, sexo, tipoUsuario, password) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
-        int codigoGenerado = 0;
+        Integer codigoGenerado = 0;
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getNombre());
@@ -130,7 +130,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ex.printStackTrace(System.out);
         }
         
-        return codigoGenerado;
+        return codigoGenerado.toString();
     }
 
 }

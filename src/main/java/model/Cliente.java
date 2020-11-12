@@ -22,6 +22,11 @@ public class Cliente extends Usuario {
     public Cliente(String codigo) {
         super(codigo);
     }
+    public Cliente(String codigo, String birth, InputStream dpiPDF) {
+        super(codigo);
+        this.birth = LocalDate.parse(birth);
+        this.dpiPDF = dpiPDF;
+    }
 
     public Cliente(String birth, String dpiPDF, String codigo) {
         super(codigo);

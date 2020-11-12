@@ -10,5 +10,5 @@ import model.Usuario;
  */
 public interface UsuarioDAO extends CRUD<Usuario> {
 
-    int crear(Usuario user);
+    String crear(Usuario user);
 }

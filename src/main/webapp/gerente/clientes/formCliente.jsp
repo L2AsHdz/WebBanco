@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form id="form-cliente" action="${pageContext.request.contextPath}/ServletControlador?accion=insertar" method="POST" enctype="multipart/form-data">
+            <form id="form-cliente" action="${pageContext.request.contextPath}/cliente?accion=agregar" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="nombre">*Nombre:</label>

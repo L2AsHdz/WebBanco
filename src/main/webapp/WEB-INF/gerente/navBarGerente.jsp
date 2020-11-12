@@ -1,6 +1,6 @@
 <div>
     <nav class="navbar navbar-expand-xl fixed-top bg-dark navbar-dark">
-        <a href="${pageContext.request.contextPath}/admin/inicioAdmin.jsp" class="navbar-brand">
+        <a href="${pageContext.request.contextPath}/index.jsp" class="navbar-brand">
             <i class="fas fa-dollar-sign"></i>
             El Billeton
         </a>
