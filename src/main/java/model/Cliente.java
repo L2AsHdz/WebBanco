@@ -1,7 +1,10 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @date 10/11/2020
@@ -14,6 +17,30 @@ public class Cliente extends Usuario {
     private InputStream dpiPDF;
 
     public Cliente() {
+    }
+
+    public Cliente(String birth, String dpiPDF, String codigo) {
+        super(codigo);
+        
+        try {
+            this.dpiPDF = new FileInputStream("/tmp/" + dpiPDF);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace(System.out);
+        }
+        
+        try {
+            this.birth = LocalDate.parse(birth);
+        } catch (Exception e) {
+            try {
+                this.birth = LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyy-M-d"));
+            } catch (Exception ex) {
+                try {
+                    this.birth = LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                } catch (Exception exx) {
+                    e.printStackTrace(System.out);
+                }
+            }
+        }
     }
 
     public LocalDate getBirth() {

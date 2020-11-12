@@ -20,7 +20,7 @@ import static others.validators.EmpleadoValidator.validarEmpleado;
  * @time 09:35:40
  * @author asael
  */
-public class LecturaGerente {
+public class LecturaEmpleado {
 
     private static final CRUD<Usuario> usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
     private static final CRUD<Empleado> empleadoDAO = EmpleadoDAOImpl.getEmpleadoDAO();
@@ -29,29 +29,30 @@ public class LecturaGerente {
      * Lee la etiqueta GERENTE del archivo de entrada, si no hay errores guarda
      * los datos en la base de datos
      * @param doc
+     * @param tipoEmpleado
      * @return List Errores
      */
-    public static List<String> leerGerente(Document doc) {
+    public static List<String> leerEmpleado(Document doc, String tipoEmpleado) {
         
         List<String> errores = new ArrayList<>();
-        NodeList gerentes = doc.getElementsByTagName("GERENTE");
+        NodeList empleados = doc.getElementsByTagName(tipoEmpleado);
         
-        for (int i = 0; i < gerentes.getLength(); i++) {
-            Node gerenteNode = gerentes.item(i);
+        for (int i = 0; i < empleados.getLength(); i++) {
+            Node empleadoNode = empleados.item(i);
             
-            if (gerenteNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element gerente = (Element) gerenteNode;
-                String codigo = getTextNode(gerente, "CODIGO");
-                String nombre = getTextNode(gerente, "NOMBRE");
-                String turno = getTextNode(gerente, "TURNO");
-                String dpi = getTextNode(gerente, "DPI");
-                String direccion = getTextNode(gerente, "DIRECCION");
-                String sexo = getTextNode(gerente, "SEXO");
-                String password = getTextNode(gerente, "PASSWORD");
+            if (empleadoNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element empleadoE = (Element) empleadoNode;
+                String codigo = getTextNode(empleadoE, "CODIGO");
+                String nombre = getTextNode(empleadoE, "NOMBRE");
+                String turno = getTextNode(empleadoE, "TURNO");
+                String dpi = getTextNode(empleadoE, "DPI");
+                String direccion = getTextNode(empleadoE, "DIRECCION");
+                String sexo = getTextNode(empleadoE, "SEXO");
+                String password = getTextNode(empleadoE, "PASSWORD");
                 
                 try {
-                    Usuario user = validarUsuario(codigo, nombre, dpi, direccion, sexo, password, "GERENTE", i);
-                    Empleado empleado = validarEmpleado(codigo, turno, "GERENTE", i);
+                    Usuario user = validarUsuario(codigo, nombre, dpi, direccion, sexo, password, tipoEmpleado, i);
+                    Empleado empleado = validarEmpleado(codigo, turno, tipoEmpleado, i);
                     usuarioDAO.create(user);
                     empleadoDAO.create(empleado);
                 } catch (FileInputException e) {

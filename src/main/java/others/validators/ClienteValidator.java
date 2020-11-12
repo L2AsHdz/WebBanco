@@ -1,5 +1,6 @@
 package others.validators;
 
+import model.Cliente;
 import others.exceptions.FileInputException;
 
 /**
@@ -9,8 +10,9 @@ import others.exceptions.FileInputException;
  */
 public class ClienteValidator extends Validator {
     
-    public static void validarCliente(String birth, String dpiFileName, String tipoUser, int i) throws FileInputException {
+    public static Cliente validarCliente(String codigo, String birth, String dpiFileName, String tipoUser, int i) throws FileInputException {
         
+        Cliente cliente = null;
         String etiqueta = "Etiqueta " + tipoUser + " No. " + (i + 1);
         if (birth.trim().isEmpty() || dpiFileName.trim().isEmpty()) {
             throw new FileInputException(etiqueta + ": Hay uno o mas valores vacios");
@@ -18,6 +20,9 @@ public class ClienteValidator extends Validator {
             throw new FileInputException(etiqueta + ": La fecha no tiene un formato correcto");
         } else if (!exists(dpiFileName)) {
             throw new FileInputException(etiqueta + ": No se encontro el archivo del dpi: " + dpiFileName);
+        } else {
+            cliente = new Cliente(birth, dpiFileName, codigo);
         }
+        return cliente;
     }
 }

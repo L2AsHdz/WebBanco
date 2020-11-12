@@ -21,8 +21,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import static web.lecturaArchivo.LecturaCajero.leerCajero;
-import static web.lecturaArchivo.LecturaGerente.leerGerente;
+import static web.lecturaArchivo.LecturaCliente.leerCliente;
+import static web.lecturaArchivo.LecturaEmpleado.leerEmpleado;
 
 /**
  * @date 11/11/2020
@@ -92,13 +92,13 @@ public class LecturaArchivoServlet extends HttpServlet {
             Document doc = builder.parse(fileIS);
 
             //Leer etiqueta gerente
-            errores.addAll(leerGerente(doc));
+            errores.addAll(leerEmpleado(doc, "GERENTE"));
 
             //Leer etiqueta cajero
-            errores.addAll(leerCajero(doc));
+            errores.addAll(leerEmpleado(doc, "CAJERO"));
 
-            //Leer etiqueta cliente
-            //errores.addAll(leerCliente(doc));
+            //Leer etiqueta cliente con sus cuentas
+            errores.addAll(leerCliente(doc));
 
             /*//Leer etiqueta transaccion
             errores.addAll(leerTransaccion(doc));*/
