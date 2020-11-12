@@ -60,7 +60,7 @@ public class LecturaArchivoServlet extends HttpServlet {
         
         
         if (errores.isEmpty()) {
-            request.setAttribute("nice", "La lectura del archivo finalizo sin ningun error");
+            request.setAttribute("nice", "La lectura del archivo finalizo sin errores");
         } else {
             request.setAttribute("errores", errores);
         }

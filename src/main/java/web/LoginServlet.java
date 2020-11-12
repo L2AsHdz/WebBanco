@@ -3,7 +3,6 @@ package web;
 import datos.CRUD;
 import datos.usuario.UsuarioDAOImpl;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,14 +50,17 @@ public class LoginServlet extends HttpServlet {
                 sesion.setAttribute("user", user);
 
                 switch (user.getTipoUsuario()) {
-                    case 1 -> response.sendRedirect("gerente/inicioGerente,jsp");
+                    case 1 -> response.sendRedirect("gerente/inicioGerente.jsp");
                     case 2 -> response.sendRedirect("cajero/inicioCajero.jsp");
                     case 3 -> response.sendRedirect("cliente/clienteInicio.jsp");
                 }
+            } else {
+                request.setAttribute("errorLogin", "Contraseña incorrecta");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
 
         } else {
-            request.setAttribute("errorLogin", true);
+            request.setAttribute("errorLogin", "No existe un usuario con el codigo ingresado");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
 
