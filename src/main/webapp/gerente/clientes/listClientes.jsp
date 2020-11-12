@@ -17,7 +17,7 @@
         <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
     </head>
     <body>
-        
+
         <!--Barra de navegacion-->
         <jsp:include page="/WEB-INF/gerente/navBarGerente.jsp" />
 
@@ -78,11 +78,16 @@
                 </div>
             </div>
         </div>
-        
+
         <%@include file="formCliente.jsp"%>
 
         <!--JS--> 
         <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
-        
+
+        <!-- JQuery Validate -->
+        <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+        <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
+        <script src="${pageContext.request.contextPath}/js/validaciones/validarCliente.js"></script>
+
     </body>
 </html>
