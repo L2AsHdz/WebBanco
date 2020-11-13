@@ -135,5 +135,13 @@
             </div>
         </c:if>
 
+        <!--JS--> 
+        <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
+
+        <!-- JQuery Validate -->
+        <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+        <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
+        <script src="${pageContext.request.contextPath}/js/validaciones/validarCajero.js"></script>
+
     </body>
 </html>
