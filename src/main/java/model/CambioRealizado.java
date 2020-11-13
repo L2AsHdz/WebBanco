@@ -14,11 +14,17 @@ public class CambioRealizado implements Serializable {
     private int id;
     private Empleado gerente;
     private Usuario usuarioModificado;
-    private String descripcion;
     private LocalDate fecha;
     private LocalTime hora;
 
     public CambioRealizado() {
+    }
+
+    public CambioRealizado(Empleado gerente, Usuario usuarioModificado, LocalDate fecha, LocalTime hora) {
+        this.gerente = gerente;
+        this.usuarioModificado = usuarioModificado;
+        this.fecha = fecha;
+        this.hora = hora;
     }
 
     public int getId() {
@@ -43,14 +49,6 @@ public class CambioRealizado implements Serializable {
 
     public void setUsuarioModificado(Usuario usuarioModificado) {
         this.usuarioModificado = usuarioModificado;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public LocalDate getFecha() {

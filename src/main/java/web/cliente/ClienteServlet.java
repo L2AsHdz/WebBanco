@@ -1,11 +1,14 @@
 package web.cliente;
 
 import datos.CRUD;
+import datos.cambioRealizado.CambioRealizadoDAOImpl;
 import datos.cliente.ClienteDAOImpl;
 import datos.usuario.UsuarioDAO;
 import datos.usuario.UsuarioDAOImpl;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,7 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CambioRealizado;
 import model.Cliente;
+import model.Empleado;
 import model.Usuario;
 
 /**
@@ -27,7 +32,8 @@ public class ClienteServlet extends HttpServlet {
 
     private final UsuarioDAO usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
     private final CRUD<Cliente> clienteDAO = ClienteDAOImpl.getClienteDAO();
-
+    private final CRUD<CambioRealizado> cambioDAO = CambioRealizadoDAOImpl.getCambioDAO();
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -77,6 +83,7 @@ public class ClienteServlet extends HttpServlet {
                 String codigo = request.getParameter("codigo");
                 usuarioDAO.update(new Usuario(codigo, nombre, direccion, noIdentificacion, sexo));
                 clienteDAO.update(new Cliente(codigo, birth, dpiPDF));
+                crearRegistroCambio(request, codigo);
                 
                 request.setAttribute("success", "Los datos del cliente se modificaron");
                 listar(request);
@@ -88,6 +95,12 @@ public class ClienteServlet extends HttpServlet {
     private void listar(HttpServletRequest request) {
         List<Cliente> clientes = clienteDAO.getList();
         request.getSession().setAttribute("clientes", clientes);
+    }
+    
+    private void crearRegistroCambio(HttpServletRequest request, String codigo) {
+        Usuario gerente = (Usuario) request.getSession().getAttribute("user");
+        String codGerente = String.valueOf(gerente.getCodigo());
+        cambioDAO.create(new CambioRealizado(new Empleado(codGerente), new Usuario(codigo), LocalDate.now(), LocalTime.now()));
     }
 
 }

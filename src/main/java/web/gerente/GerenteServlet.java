@@ -1,16 +1,21 @@
 package web.gerente;
 
+import datos.CRUD;
+import datos.cambioRealizado.CambioRealizadoDAOImpl;
 import datos.empleado.EmpleadoDAO;
 import datos.empleado.EmpleadoDAOImpl;
 import datos.usuario.UsuarioDAO;
 import datos.usuario.UsuarioDAOImpl;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CambioRealizado;
 import model.Empleado;
 import model.Turno;
 import model.Usuario;
@@ -25,6 +30,7 @@ public class GerenteServlet extends HttpServlet {
     
     private final UsuarioDAO usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
     private final EmpleadoDAO empleadoDAO = EmpleadoDAOImpl.getEmpleadoDAO();
+    private final CRUD<CambioRealizado> cambioDAO = CambioRealizadoDAOImpl.getCambioDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,6 +77,7 @@ public class GerenteServlet extends HttpServlet {
                 usuarioDAO.update(user);
                 request.getSession().setAttribute("user", user);
                 empleadoDAO.update(new Empleado(new Turno(turno), codigo));
+                crearRegistroCambio(request, codigo);
                 
                 request.setAttribute("success", "Los datos del gerente se modificaron");
                 listar(request);
@@ -82,5 +89,11 @@ public class GerenteServlet extends HttpServlet {
     private void listar(HttpServletRequest request) {
         List<Empleado> gerentes = empleadoDAO.getListGerentes();
         request.getSession().setAttribute("gerentes", gerentes);
+    }
+    
+    private void crearRegistroCambio(HttpServletRequest request, String codigo) {
+        Usuario gerente = (Usuario) request.getSession().getAttribute("user");
+        String codGerente = String.valueOf(gerente.getCodigo());
+        cambioDAO.create(new CambioRealizado(new Empleado(codGerente), new Usuario(codigo), LocalDate.now(), LocalTime.now()));
     }
 }

@@ -89,7 +89,6 @@ CREATE TABLE cambioRealizado (
   id INT NOT NULL AUTO_INCREMENT,
   codGerente INT NOT NULL,
   codUsuarioModificado INT NOT NULL,
-  descripcion VARCHAR(100) NOT NULL,
   fecha DATE NOT NULL,
   hora TIME NOT NULL,
   PRIMARY KEY (id),
