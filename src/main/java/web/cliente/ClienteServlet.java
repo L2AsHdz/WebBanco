@@ -2,6 +2,7 @@ package web.cliente;
 
 import datos.CRUD;
 import datos.cambioRealizado.CambioRealizadoDAOImpl;
+import datos.cliente.ClienteDAO;
 import datos.cliente.ClienteDAOImpl;
 import datos.usuario.UsuarioDAO;
 import datos.usuario.UsuarioDAOImpl;
@@ -31,7 +32,7 @@ import model.Usuario;
 public class ClienteServlet extends HttpServlet {
 
     private final UsuarioDAO usuarioDAO = UsuarioDAOImpl.getUsuarioDAO();
-    private final CRUD<Cliente> clienteDAO = ClienteDAOImpl.getClienteDAO();
+    private final ClienteDAO clienteDAO = ClienteDAOImpl.getClienteDAO();
     private final CRUD<CambioRealizado> cambioDAO = CambioRealizadoDAOImpl.getCambioDAO();
     
     @Override
@@ -89,6 +90,16 @@ public class ClienteServlet extends HttpServlet {
                 listar(request);
                 request.getRequestDispatcher("gerente/clientes/listClientes.jsp").forward(request, response);
             }
+            case "dpiPDF" -> {
+                String codCliente = request.getParameter("codCliente");
+                response.setContentType("application/pdf");
+                
+                byte[] dpi = clienteDAO.getPDFdpi(codCliente);
+                if (dpi != null) {
+                    response.getOutputStream().write(dpi);
+                }
+                
+            }            
         }
     }
 

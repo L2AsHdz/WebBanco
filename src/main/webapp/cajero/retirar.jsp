@@ -19,80 +19,97 @@
     <body>
 
         <!-- Barra de navegacion -->
-        <jsp:include page="/WEB-INF/gerente/navBarGerente.jsp"/>
+        <jsp:include page="/WEB-INF/cajero/navBarCajero.jsp"/>
 
 
-    <c:choose>
-        <c:when test="${!empty(cuenta)}">
-            <div class="container-fluid mt-4">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Retiro</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <a href="${pageContext.request.contextPath}/cliente?accion=dpiPDF&${cuenta.cliente.id}" class="class"></a>
+        <c:choose>
+            <c:when test="${!empty(cuenta)}">
+                <div class="container-fluid mt-4">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Retiro</h5>
                                 </div>
-                                <div class="form-group">
-                                    <label for="codigo">Saldo de la cuenta: ${cuenta.saldo}</label>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <a href="${pageContext.request.contextPath}/cliente?accion=dpiPDF&codCliente=${cuenta.cliente.codigo}" 
+                                           class="btn btn-secondary btn-block" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> Ver DPI
+                                        </a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nombre">Titular de la cuenta:</label>
+                                        <input type="text" class="form-control" name="nombre" value="${cuenta.cliente.nombre}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="codCuenta">Cantidad a retirar:</label>
+                                        <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="saldo">Saldo disponible:</label>
+                                        <input type="text" class="form-control" name="saldo" value="${cuenta.saldo}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="monto">Cantidad a retirar:</label>
+                                        <input type="text" class="form-control" name="monto">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="monto">Cantidad a retirar:</label>
-                                    <input type="text" class="form-text" name="monto">
+                                <div class="card-footer">
+                                    <a href="${pageContext.request.contextPath}/transaccion?accion=retirar" class="btn btn-primary btn-block">
+                                        Realizar retiro
+                                    </a>
+                                    <a href="${pageContext.request.contextPath}/cajero/retirar.jsp" class="btn btn-danger btn-block">
+                                        Cancelar
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <a href="${pageContext.request.contextPath}/transaccion?accion=retirar" class="btn btn-primary btn-block">
-                                    Realizar retiro
-                                </a>
-                                <a href="${pageContext.request.contextPath}/cajero/retirar.jsp" class="btn btn-danger btn-block">
-                                    Cancelar
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-xl-4"></div>
-                    <div class="col-xl-4">
-                        <h3 class="text-center mt-5 mb-3">Retirar</h3>
+            </c:when>
+            <c:otherwise>
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-xl-4"></div>
+                        <div class="col-xl-4">
+                            <h3 class="text-center mt-5 mb-3">Retirar</h3>
 
-                        <form id="form-login" action="${pageContext.request.contextPath}/transaccion?accion=infoRetiro" method="POST">
-                            <div class="form-group">
-                                <label for="codCuenta">Codigo de la cuenta</label>
-                                <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Continuar</button>
-                            </div>
-                        </form>
-                        <c:if test="${!empty(error)}" >
-                            <div class="alert alert-danger alert-dismissible mt-2">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                ${error}
-                            </div>
-                        </c:if>
-                        <c:if test="${!empty(success)}" >
-                            <div class="alert alert-success alert-dismissible mt-2">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                ${error}
-                            </div>
-                        </c:if>
+                            <form id="form-login" action="${pageContext.request.contextPath}/transaccion?accion=infoRetiro" method="POST">
+                                <div class="form-group">
+                                    <label for="codCuenta">Codigo de la cuenta</label>
+                                    <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                </div>
+                            </form>
+                            <c:if test="${!empty(error)}" >
+                                <div class="alert alert-danger alert-dismissible mt-2">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    ${error}
+                                </div>
+                            </c:if>
+                            <c:if test="${!empty(success)}" >
+                                <div class="alert alert-success alert-dismissible mt-2">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    ${error}
+                                </div>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </c:otherwise>
-    </c:choose>
+            </c:otherwise>
+        </c:choose>
 
 
-    <!--JS--> 
-    <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
+        <!--JS--> 
+        <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
 
-</body>
+        <!-- JQuery Validate -->
+        <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+        <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
+        <script src="${pageContext.request.contextPath}/js/validaciones/validarRetiro.js"></script>
+
+    </body>
 </html>

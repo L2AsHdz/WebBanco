@@ -74,16 +74,19 @@ public class CuentaDAOImpl implements CuentaDAO {
 
     @Override
     public Cuenta getObject(String codigo) {
-        String sql = "SELECT * FROM cuenta WHERE codigo = ?";
+        String sql = "SELECT c.*, u.nombre FROM cuenta c INNER JOIN usuario u ON c.codigoCliente=u.codigo WHERE c.codigo = ?";
 
         Cuenta cuenta = null;
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, Integer.parseInt(codigo));
             try ( ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setCodigo(rs.getInt("codigoCliente"));
+                    cliente.setNombre(rs.getString("nombre"));
                     cuenta = new Cuenta(
                             rs.getString("codigo"),
-                            new Cliente(rs.getString("codigoCliente")),
+                            cliente,
                             rs.getString("fechaCreacion"),
                             rs.getString("saldo"));
                 }

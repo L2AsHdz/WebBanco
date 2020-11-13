@@ -10,4 +10,5 @@ import model.Cliente;
  */
 public interface ClienteDAO extends CRUD<Cliente> {
     
+    byte[] getPDFdpi(String codigo);
 }

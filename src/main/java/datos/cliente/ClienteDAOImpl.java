@@ -2,6 +2,7 @@ package datos.cliente;
 
 import datos.Conexion;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -135,6 +136,29 @@ public class ClienteDAOImpl implements ClienteDAO {
             ex.printStackTrace(System.out);
         }
         return flag;
+    }
+
+    @Override
+    public byte[] getPDFdpi(String codigo) {
+        String sql = "SELECT pdfDPI FROM cliente WHERE codigoUsuario = ?";
+        InputStream dpiPDF;
+        byte[] datosPDF = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    dpiPDF = rs.getBinaryStream("pdfDPI");
+
+                    int tamanoInput = dpiPDF.available();
+                    datosPDF = new byte[tamanoInput];
+                    dpiPDF.read(datosPDF, 0, tamanoInput);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return datosPDF;
     }
 
 }
