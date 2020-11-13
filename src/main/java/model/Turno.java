@@ -20,6 +20,7 @@ public class Turno implements Serializable {
 
     public Turno(String nombre) {
         this.id = nombre.equalsIgnoreCase("MATUTINO") ? 1 : 2;
+        this.nombre = nombre;
     }
 
     public int getId() {

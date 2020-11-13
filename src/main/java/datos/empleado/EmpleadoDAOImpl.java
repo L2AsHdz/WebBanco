@@ -1,6 +1,7 @@
 package datos.empleado;
 
 import datos.Conexion;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,13 +50,41 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
     }
 
     @Override
-    public Empleado getObject(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Empleado getObject(String codigo) {
+        String sql = "SELECT u.*, e.idTurno, t.nombre turno FROM usuario u INNER JOIN "
+                + "empleado e ON u.codigo=e.codigoUsuario INNER JOIN turno t ON "
+                + "e.idTurno=t.id WHERE u.tipoUsuario = 2 AND u.codigo = ?";
+
+        Empleado empleado = null;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codigo));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    empleado = new Empleado(
+                            new Turno(rs.getString("turno")),
+                            rs.getString("codigo"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("noIdentificacion"),
+                            rs.getString("sexo"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return empleado;
     }
 
     @Override
-    public void update(Empleado t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Empleado empleado) {
+        String sql = "UPDATE empleado SET idTurno = ? WHERE codigoUsuario = ?";
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, empleado.getTurno().getId());
+            ps.setInt(2, empleado.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override
@@ -88,8 +117,7 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
                 + "e.idTurno=t.id WHERE u.tipoUsuario=1";
         List<Empleado> gerentes = null;
 
-        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
-                ResultSet rs = declaracion.executeQuery()) {
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  ResultSet rs = declaracion.executeQuery()) {
             gerentes = new ArrayList();
 
             while (rs.next()) {
@@ -116,17 +144,16 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
                 + "e.idTurno=t.id WHERE u.tipoUsuario = 2 AND u.codigo != 101";
         List<Empleado> cajeros = null;
 
-        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
-                ResultSet rs = declaracion.executeQuery()) {
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  ResultSet rs = declaracion.executeQuery()) {
             cajeros = new ArrayList();
 
             while (rs.next()) {
                 Empleado cajero = new Empleado(
-                        new Turno(rs.getString("turno")), 
-                        rs.getString("codigo"), 
-                        rs.getString("nombre"), 
-                        rs.getString("direccion"), 
-                        rs.getString("noIdentificacion"), 
+                        new Turno(rs.getString("turno")),
+                        rs.getString("codigo"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("noIdentificacion"),
                         rs.getString("sexo"));
                 cajeros.add(cajero);
             }

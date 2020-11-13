@@ -122,7 +122,7 @@
                                 <h5>Editar cajero</h5>
                             </div>
                             <div class="card-body">
-                                <form id="form-cajero" action="${pageContext.request.contextPath}/cliente?accion=update" method="POST">
+                                <form id="form-cajero" action="${pageContext.request.contextPath}/cajero?accion=update" method="POST">
                                     <%@include file="formCajero.jsp"%>
                             </div>
                             <div class="card-footer">

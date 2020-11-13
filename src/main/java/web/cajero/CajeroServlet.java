@@ -59,6 +59,21 @@ public class CajeroServlet extends HttpServlet {
                 listar(request);
                 request.getRequestDispatcher("gerente/cajeros/listCajeros.jsp").forward(request, response);
             }
+            case "editar" -> {
+                String codigo = request.getParameter("codigo");
+                Empleado cajero = empleadoDAO.getObject(codigo);
+                request.setAttribute("cajero", cajero);
+                request.getRequestDispatcher("gerente/cajeros/listCajeros.jsp").forward(request, response);
+            }
+            case "update" -> {
+                String codigo = request.getParameter("codigo");
+                usuarioDAO.update(new Usuario(codigo, nombre, direccion, noIdentificacion, sexo));
+                empleadoDAO.update(new Empleado(new Turno(turno), codigo));
+                
+                request.setAttribute("success", "Los datos del cajero se modificaron");
+                listar(request);
+                request.getRequestDispatcher("gerente/cajeros/listCajeros.jsp").forward(request, response);
+            }
         }
     }
     

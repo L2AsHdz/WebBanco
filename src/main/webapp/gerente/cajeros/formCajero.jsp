@@ -9,15 +9,15 @@
     </c:if>
     <div class="form-group">
         <label for="nombre">*Nombre:</label>
-        <input type="text" class="form-control" name="nombre" value="${cliente.nombre}">
+        <input type="text" class="form-control" name="nombre" value="${cajero.nombre}">
     </div>
     <div class="form-group">
         <label for="direccion">*Direccion:</label>
-        <input type="text" class="form-control" name="direccion" value="${cliente.direccion}">
+        <input type="text" class="form-control" name="direccion" value="${cajero.direccion}">
     </div>
     <div class="form-group">
         <label for="noIdentificacion">*No identificacion:</label>
-        <input type="text" class="form-control" name="noIdentificacion" value="${cliente.noIdentificacion}">
+        <input type="text" class="form-control" name="noIdentificacion" value="${cajero.noIdentificacion}">
     </div>
 
     <div class="form-group">
@@ -45,11 +45,11 @@
         <label for="turno">*Turno:</label>
         <select class="form-control" name="turno">
             <c:choose>
-                <c:when test="${cajero.turno.nombre == 'Matutino'}">
+                <c:when test="${cajero.turno.id == 1}">
                     <option>Matutino</option>
                     <option>Vespertino</option>
                 </c:when>
-                <c:when test="${cajero.turno.nombre == 'Vespertino'}">
+                <c:when test="${cajero.turno.id == 2}">
                     <option>Vespertino</option>
                     <option>Matutino</option>
                 </c:when>
