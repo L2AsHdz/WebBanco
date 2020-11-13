@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Empleado;
+import model.Turno;
+import model.Usuario;
 
 /**
  * @date 13/11/2020
@@ -26,6 +28,7 @@ public class GerenteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override
@@ -47,6 +50,14 @@ public class GerenteServlet extends HttpServlet {
             case "listar" -> {
                 listar(request);
                 response.sendRedirect("gerente/gerentes/listGerentes.jsp");
+            }
+            case "agregar" -> {
+                String codigo = usuarioDAO.crear(new Usuario(nombre, direccion, noIdentificacion, sexo, 1, password));
+                empleadoDAO.create(new Empleado(new Turno(turno), codigo));
+                
+                request.setAttribute("success", "El gerente se ingreso correctamente");
+                listar(request);
+                request.getRequestDispatcher("gerente/gerentes/listGerentes.jsp").forward(request, response);
             }
         }
     }

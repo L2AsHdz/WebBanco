@@ -76,7 +76,7 @@
                                                 <td>${gerente.turno.nombre}</td>
                                                 <td>
                                                     <c:if test="${gerente.codigo == user.codigo}">
-                                                        <a href="${pageContext.request.contextPath}/cajero?accion=editar&codigo=${cajero.codigo}" 
+                                                        <a href="${pageContext.request.contextPath}/cajero?accion=editar&codigo=${gerente.codigo}" 
                                                            class="btn btn-info">
                                                             <i class="fas fa-angle-double-right"></i> Editar
                                                         </a>
