@@ -22,6 +22,12 @@ public class Cuenta {
         this.codigo = Integer.parseInt(codigo);
     }
 
+    public Cuenta(Cliente cliente, LocalDate fechaCreacion, float saldo) {
+        this.cliente = cliente;
+        this.fechaCreacion = fechaCreacion;
+        this.saldo = saldo;
+    }
+
     public Cuenta(String codigo, Cliente cliente, String fechaCreacion, String saldo) {
         this.codigo = Integer.parseInt(codigo);
         this.cliente = cliente;

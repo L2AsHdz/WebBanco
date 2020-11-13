@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/gerente/cuenta/crearCuenta.jsp">Crear Cuenta</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/gerente/cuentas/crearCuenta.jsp">Crear Cuenta</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="${pageContext.request.contextPath}/cliente?accion=listar">Clientes</a>

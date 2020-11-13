@@ -144,4 +144,29 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         return codigoGenerado.toString();
     }
 
+    @Override
+    public Usuario getUsuario(String noIdentificacion) {
+        String sql = "SELECT * FROM usuario WHERE noIdentificacion = ? AND tipoUsuario = 3";
+
+        Usuario usuario = null;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, noIdentificacion);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    usuario = new Usuario(
+                            rs.getString("codigo"), 
+                            rs.getString("nombre"), 
+                            rs.getString("direccion"), 
+                            rs.getString("noIdentificacion"), 
+                            rs.getString("sexo"), 
+                            rs.getInt("tipoUsuario"), 
+                            rs.getString("password"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return usuario;
+    }
+
 }

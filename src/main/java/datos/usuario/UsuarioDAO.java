@@ -11,4 +11,5 @@ import model.Usuario;
 public interface UsuarioDAO extends CRUD<Usuario> {
 
     String crear(Usuario user);
+    Usuario getUsuario(String noIdentificacion);
 }

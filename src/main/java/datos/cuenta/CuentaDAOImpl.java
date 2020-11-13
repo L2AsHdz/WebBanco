@@ -36,24 +36,10 @@ public class CuentaDAOImpl implements CuentaDAO {
 
     @Override
     public void create(Cuenta cuenta) {
-        String sql = "INSERT INTO cuenta(codigoCliente, fechaCreacion, saldo) VALUES (?, ?, ?)";
-
-        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, cuenta.getCliente().getCodigo());
-            ps.setString(2, cuenta.getFechaCreacion().toString());
-            ps.setFloat(3, cuenta.getSaldo());
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        }
-    }
-    
-    @Override
-    public void create(String codigo, Cuenta cuenta) {
         String sql = "INSERT INTO cuenta VALUES (?, ?, ?, ?)";
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, Integer.parseInt(codigo));
+            ps.setInt(1, cuenta.getCodigo());
             ps.setInt(2, cuenta.getCliente().getCodigo());
             ps.setString(3, cuenta.getFechaCreacion().toString());
             ps.setFloat(4, cuenta.getSaldo());
@@ -61,6 +47,28 @@ public class CuentaDAOImpl implements CuentaDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         }
+    }
+    
+    @Override
+    public String crear(Cuenta cuenta) {
+        String sql = "INSERT INTO cuenta(codigoCliente, fechaCreacion, saldo) VALUES (?, ?, ?)";
+        Integer codigoGenerado = 0;
+        
+        try ( PreparedStatement ps = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, cuenta.getCliente().getCodigo());
+            ps.setString(2, cuenta.getFechaCreacion().toString());
+            ps.setFloat(3, cuenta.getSaldo());
+            ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (rs.next()) {
+                codigoGenerado = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return codigoGenerado.toString();
     }
 
     @Override

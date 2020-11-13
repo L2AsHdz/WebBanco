@@ -10,5 +10,5 @@ import model.Cuenta;
  */
 public interface CuentaDAO extends CRUD<Cuenta> {
 
-    void create(String codigo, Cuenta c);
+    String crear(Cuenta c);
 }

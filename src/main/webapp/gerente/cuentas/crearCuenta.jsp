@@ -21,27 +21,7 @@
         <jsp:include page="/WEB-INF/gerente/navBarGerente.jsp"/>
 
         <c:choose>
-            <c:when test="${!crearCliente}">
-                <div class="container mt-5">
-                    <div class="row">
-                        <div class="col-xl-3"></div>
-                        <div class="col-xl-6">
-                            <h3 class="text-center mt-5 mb-3">Crear nueva cuenta</h3>
-
-                            <form id="form-login" action="${pageContext.request.contextPath}/cuenta?accion=verificarUser" method="POST">
-                                <div class="form-group">
-                                    <label for="noIdentificacion">No identificacion del cliente</label>
-                                    <input type="text" class="form-control" name="noIdentificacion" placeholder="Ingrese identificacion" autofocus>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Verificar si tiene usuario</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </c:when>
-            <c:otherwise>
+            <c:when test="${crearCliente}">
                 <div class="container-fluid mt-4">
                     <div class="row d-flex justify-content-center">
                         <div class="col-xl-4">
@@ -54,10 +34,62 @@
                                         <%@include file="../clientes/formCliente.jsp"%>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary" form="form-cliente">Agregar</button>
-                                    <button id="limpiar" type="reset" class="btn btn-info" form="form-cliente">Limpiar</button>
+                                    <button type="submit" class="btn btn-primary btn-block" form="form-cliente">Agregar</button>
+                                    <button id="limpiar" type="reset" class="btn btn-info btn-block" form="form-cliente">Limpiar</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+            <c:when test="${success}">
+                <div class="container-fluid mt-4">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Resumen de datos</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="codigo">Codigo de usuario:</label>
+                                        <input type="text" class="form-control" name="codigo" value="${cuenta.cliente.codigo}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="codigo">Nombre del cliente:</label>
+                                        <input type="text" class="form-control" name="codigo" value="${cuenta.cliente.nombre}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="codigo">Codigo de cuenta:</label>
+                                        <input type="text" class="form-control" name="codigo" value="${cuenta.codigo}" readonly>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="${pageContext.request.contextPath}/gerente/cuentas/crearCuenta.jsp" class="btn btn-primary btn-block">
+                                        Aceptar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-xl-4"></div>
+                        <div class="col-xl-4">
+                            <h3 class="text-center mt-5 mb-3">Crear nueva cuenta</h3>
+
+                            <form id="form-login" action="${pageContext.request.contextPath}/cuenta?accion=verificarUser" method="POST" class="was-validated">
+                                <div class="form-group">
+                                    <label for="noIdentificacion">No identificacion del cliente</label>
+                                    <input type="text" class="form-control" name="noIdentificacion" placeholder="Ingrese identificacion" autofocus required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Continuar</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
