@@ -32,33 +32,33 @@
                                     <h5>Retiro</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <a href="${pageContext.request.contextPath}/cliente?accion=dpiPDF&codCliente=${cuenta.cliente.codigo}" 
-                                           class="btn btn-secondary btn-block" target="_blank">
-                                            <i class="fas fa-file-pdf"></i> Ver DPI
-                                        </a>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nombre">Titular de la cuenta:</label>
-                                        <input type="text" class="form-control" name="nombre" value="${cuenta.cliente.nombre}" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="codCuenta">Cantidad a retirar:</label>
-                                        <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="saldo">Saldo disponible:</label>
-                                        <input type="text" class="form-control" name="saldo" value="${cuenta.saldo}" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="monto">Cantidad a retirar:</label>
-                                        <input type="text" class="form-control" name="monto">
-                                    </div>
+                                    <form id="form-retiro" action="${pageContext.request.contextPath}/transaccion?accion=retirar" method="POST">
+                                        <div class="form-group">
+                                            <a href="${pageContext.request.contextPath}/cliente?accion=dpiPDF&codCliente=${cuenta.cliente.codigo}" 
+                                               class="btn btn-secondary btn-block" target="_blank">
+                                                <i class="fas fa-file-pdf"></i> Ver DPI
+                                            </a>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nombre">Titular de la cuenta:</label>
+                                            <input type="text" class="form-control" name="nombre" value="${cuenta.cliente.nombre}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="codCuenta">Cantidad a retirar:</label>
+                                            <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="saldo">Saldo disponible:</label>
+                                            <input type="text" class="form-control" id="saldo" name="saldo" value="${cuenta.saldo}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="monto">Cantidad a retirar:</label>
+                                            <input type="text" class="form-control" name="monto">
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="${pageContext.request.contextPath}/transaccion?accion=retirar" class="btn btn-primary btn-block">
-                                        Realizar retiro
-                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-block" form="form-retiro">Realizar retiro</button>
                                     <a href="${pageContext.request.contextPath}/cajero/retirar.jsp" class="btn btn-danger btn-block">
                                         Cancelar
                                     </a>
@@ -75,7 +75,7 @@
                         <div class="col-xl-4">
                             <h3 class="text-center mt-5 mb-3">Retirar</h3>
 
-                            <form id="form-login" action="${pageContext.request.contextPath}/transaccion?accion=infoRetiro" method="POST">
+                            <form id="form-infoR" action="${pageContext.request.contextPath}/transaccion?accion=infoRetiro" method="POST">
                                 <div class="form-group">
                                     <label for="codCuenta">Codigo de la cuenta</label>
                                     <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
