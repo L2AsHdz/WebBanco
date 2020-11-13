@@ -1,4 +1,4 @@
-package web;
+package web.cliente;
 
 import datos.CRUD;
 import datos.cliente.ClienteDAOImpl;
@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import model.Cliente;
 import model.Usuario;
 
