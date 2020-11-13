@@ -12,6 +12,11 @@ public class Empleado extends Usuario {
     public Empleado() {
     }
 
+    public Empleado(Turno turno, String codigo, String nombre, String direccion, String noIdentificacion, String sexo) {
+        super(codigo, nombre, direccion, noIdentificacion, sexo);
+        this.turno = turno;
+    }
+
     public Empleado(String codigo) {
         super(codigo);
     }

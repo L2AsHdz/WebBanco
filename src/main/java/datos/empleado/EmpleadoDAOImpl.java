@@ -109,4 +109,31 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
         return gerentes;
     }
 
+    @Override
+    public List<Empleado> getListCajeros() {
+        String sql = "SELECT u.*, e.idTurno, t.nombre turno FROM usuario u INNER JOIN "
+                + "empleado e ON u.codigo=e.codigoUsuario INNER JOIN turno t ON "
+                + "e.idTurno=t.id WHERE u.tipoUsuario = 2 AND u.codigo != 101";
+        List<Empleado> cajeros = null;
+
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
+                ResultSet rs = declaracion.executeQuery()) {
+            cajeros = new ArrayList();
+
+            while (rs.next()) {
+                Empleado cajero = new Empleado(
+                        new Turno(rs.getString("turno")), 
+                        rs.getString("codigo"), 
+                        rs.getString("nombre"), 
+                        rs.getString("direccion"), 
+                        rs.getString("noIdentificacion"), 
+                        rs.getString("sexo"));
+                cajeros.add(cajero);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return cajeros;
+    }
+
 }

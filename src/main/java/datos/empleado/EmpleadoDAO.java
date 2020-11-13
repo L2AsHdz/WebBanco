@@ -12,4 +12,5 @@ import model.Empleado;
 public interface EmpleadoDAO extends CRUD<Empleado> {
 
     List<Empleado> getListGerentes();
+    List<Empleado> getListCajeros();
 }

@@ -14,7 +14,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/cliente?accion=listar">Clientes</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/MedicoServlet">Cajeros</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/cajero?accion=listar">Cajeros</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="${pageContext.request.contextPath}/LaboratoristaServlet">Gerentes</a>
