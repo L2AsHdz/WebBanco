@@ -39,6 +39,17 @@ public class TurnoServlet extends HttpServlet {
                 listar(request);
                 response.sendRedirect("gerente/turnos.jsp");
             }
+            case "update" -> {
+                String id = request.getParameter("idTurno");
+                String horaEntrada = request.getParameter("horaEntrada");
+                String horaSalida = request.getParameter("horaSalida");
+                
+                turnoDAO.update(new Turno(id, horaEntrada, horaSalida));
+                
+                request.setAttribute("success", "El horarios del turno fueron actualizado");
+                listar(request);
+                request.getRequestDispatcher("gerente/turnos.jsp").forward(request, response);
+            }
         }
     }
     

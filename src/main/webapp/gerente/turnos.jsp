@@ -23,6 +23,16 @@
 
         <!-- Turnos disponibles -->
         <div class="container-fluid my-5 pl-4">
+            <c:if test="${!empty(success)}">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            ${success}
+                        </div>
+                    </div>
+                </div>
+            </c:if>
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card">
@@ -51,7 +61,7 @@
                                             <td>
                                                 <a class="btn btn-secondary btn-info" data-toggle="modal" data-target="#modal-informe" 
                                                    data-controls-modal="modal-informe" data-backdrop="static" data-keyboard="false"
-                                                   onclick="$('#idTurno').val(${turno.id}">
+                                                   onclick="$('#idTurno').val(${turno.id})">
                                                     <i class="fas fa-angle-double-right"></i> Editar
                                                 </a>
                                             </td>
@@ -73,11 +83,11 @@
                                         <input type="text" class="form-control d-none" name="idTurno" id="idTurno">
                                         <div class="form-group">
                                             <label for="horaEntrada">*Hora Entrada:</label>
-                                            <input type="time" class="form-control" name="horaEntrada">
+                                            <input type="time" class="form-control" name="horaEntrada" id="horaEntrada">
                                         </div>
                                         <div class="form-group">
                                             <label for="horaSalida">*Hora Salida:</label>
-                                            <input type="time" class="form-control" name="horaSalida">
+                                            <input type="time" class="form-control" name="horaSalida" id="horaSalida">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary btn-block">Guardar cambios</button>

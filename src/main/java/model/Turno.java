@@ -23,6 +23,12 @@ public class Turno implements Serializable {
         this.nombre = nombre;
     }
 
+    public Turno(String id, String horaEntrada, String horaSalida) {
+        this.id = Integer.parseInt(id);
+        this.horaEntrada = LocalTime.parse(horaEntrada);
+        this.horaSalida = LocalTime.parse(horaSalida);
+    }
+
     public Turno(int id, String nombre, String horaEntrada, String horaSalida) {
         this.id = id;
         this.nombre = nombre;

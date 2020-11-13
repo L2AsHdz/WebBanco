@@ -64,8 +64,16 @@ public class TurnoDAOImpl implements TurnoDAO {
     }
 
     @Override
-    public void update(Turno t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Turno turno) {
+        String sql = "UPDATE turno SET horaEntrada = ?, horaSalida = ? WHERE id = ?";
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, turno.getHoraEntrada().toString());
+            ps.setString(2, turno.getHoraSalida().toString());
+            ps.setInt(3, turno.getId());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override
