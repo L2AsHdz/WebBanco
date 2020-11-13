@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -8,7 +9,7 @@ import java.time.LocalTime;
  * @time 22:42:32
  * @author asael
  */
-public class CambioRealizado {
+public class CambioRealizado implements Serializable {
 
     private int id;
     private Empleado gerente;

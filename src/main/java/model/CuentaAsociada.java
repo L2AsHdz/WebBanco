@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @date 10/11/2020
  * @time 21:39:26
  * @author asael
  */
-public class CuentaAsociada {
+public class CuentaAsociada implements Serializable {
 
     private Cliente cliente;
     private Cuenta cuenta;

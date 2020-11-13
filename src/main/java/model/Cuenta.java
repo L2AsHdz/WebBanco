@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -8,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * @time 21:38:18
  * @author asael
  */
-public class Cuenta {
+public class Cuenta implements Serializable {
 
     private int codigo;
     private Cliente cliente;

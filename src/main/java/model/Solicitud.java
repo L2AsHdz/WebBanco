@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @date 10/11/2020
  * @time 21:40:24
  * @author asael
  */
-public class Solicitud {
+public class Solicitud implements Serializable {
 
     private int id;
     private Cliente cliente;

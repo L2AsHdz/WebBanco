@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @date 10/11/2020
  * @time 21:34:40
  * @author asael
  */
-public class Empleado extends Usuario {
+public class Empleado extends Usuario implements Serializable {
 
     private Turno turno;
 

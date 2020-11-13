@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * @date 10/11/2020
  * @time 22:44:15
  * @author asael
  */
-public class Limite {
+public class Limite implements Serializable {
 
     private int id;
     private String nombre;

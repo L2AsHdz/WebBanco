@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -7,7 +8,7 @@ import java.time.LocalDate;
  * @time 21:35:05
  * @author asael
  */
-public class Turno {
+public class Turno implements Serializable {
 
     private int id;
     private String nombre;
