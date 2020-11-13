@@ -88,7 +88,7 @@
                                         <c:forEach var="limite" items="${limites}">
                                             <input type="text" class="form-control d-none" name="idLimite${limite.id}" value="${limite.id}">
                                             <div class="form-group">
-                                                <label for="valor${limite.id}">*Limite reporte ${limite.id}:</label>
+                                                <label for="valor${limite.id}">*Limite reporte ${limite.id + 1}:</label>
                                                 <input type="text" class="form-control" name="valor${limite.id}" id="valor${limite.id}" value="${limite.valor}">
                                             </div>
                                         </c:forEach>
