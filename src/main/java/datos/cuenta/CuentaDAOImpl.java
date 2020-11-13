@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import model.Cliente;
 import model.Cuenta;
 
 /**
@@ -14,18 +15,18 @@ import model.Cuenta;
  * @author asael
  */
 public class CuentaDAOImpl implements CuentaDAO {
-    
+
     private static CuentaDAOImpl cuentaDAO = null;
     private final Connection conexion = Conexion.getConexion();
-    
+
     private CuentaDAOImpl() {
     }
-    
+
     public static CuentaDAOImpl getCuentaDAO() {
         if (cuentaDAO == null) {
             cuentaDAO = new CuentaDAOImpl();
         }
-        
+
         return cuentaDAO;
     }
 
@@ -48,20 +49,20 @@ public class CuentaDAOImpl implements CuentaDAO {
             ex.printStackTrace(System.out);
         }
     }
-    
+
     @Override
     public String crear(Cuenta cuenta) {
         String sql = "INSERT INTO cuenta(codigoCliente, fechaCreacion, saldo) VALUES (?, ?, ?)";
         Integer codigoGenerado = 0;
-        
+
         try ( PreparedStatement ps = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, cuenta.getCliente().getCodigo());
             ps.setString(2, cuenta.getFechaCreacion().toString());
             ps.setFloat(3, cuenta.getSaldo());
             ps.executeUpdate();
-            
+
             ResultSet rs = ps.getGeneratedKeys();
-            
+
             if (rs.next()) {
                 codigoGenerado = rs.getInt(1);
             }
@@ -72,8 +73,25 @@ public class CuentaDAOImpl implements CuentaDAO {
     }
 
     @Override
-    public Cuenta getObject(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cuenta getObject(String codigo) {
+        String sql = "SELECT * FROM cuenta WHERE codigo = ?";
+
+        Cuenta cuenta = null;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codigo));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cuenta = new Cuenta(
+                            rs.getString("codigo"),
+                            new Cliente(rs.getString("codigoCliente")),
+                            rs.getString("fechaCreacion"),
+                            rs.getString("saldo"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return cuenta;
     }
 
     @Override
