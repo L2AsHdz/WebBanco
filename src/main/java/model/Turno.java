@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * @date 10/11/2020
@@ -12,8 +12,8 @@ public class Turno implements Serializable {
 
     private int id;
     private String nombre;
-    private LocalDate horaEntrada;
-    private LocalDate horaSalida;
+    private LocalTime horaEntrada;
+    private LocalTime horaSalida;
 
     public Turno() {
     }
@@ -21,6 +21,13 @@ public class Turno implements Serializable {
     public Turno(String nombre) {
         this.id = nombre.equalsIgnoreCase("MATUTINO") ? 1 : 2;
         this.nombre = nombre;
+    }
+
+    public Turno(int id, String nombre, String horaEntrada, String horaSalida) {
+        this.id = id;
+        this.nombre = nombre;
+        this.horaEntrada = LocalTime.parse(horaEntrada);
+        this.horaSalida = LocalTime.parse(horaSalida);
     }
 
     public int getId() {
@@ -39,19 +46,19 @@ public class Turno implements Serializable {
         this.nombre = nombre;
     }
 
-    public LocalDate getHoraEntrada() {
+    public LocalTime getHoraEntrada() {
         return horaEntrada;
     }
 
-    public void setHoraEntrada(LocalDate horaEntrada) {
+    public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
     }
 
-    public LocalDate getHoraSalida() {
+    public LocalTime getHoraSalida() {
         return horaSalida;
     }
 
-    public void setHoraSalida(LocalDate horaSalida) {
+    public void setHoraSalida(LocalTime horaSalida) {
         this.horaSalida = horaSalida;
     }
 }

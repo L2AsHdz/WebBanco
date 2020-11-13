@@ -20,10 +20,10 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/gerente?accion=listar">Gerentes</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/LaboratoristaServlet">Horarios</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/turno?accion=listar">Horarios</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/LaboratoristaServlet">Cambiar Limites</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/limite?accion=listar">Cambiar Limites</a>
                 </li>
 
                 <li class="nav-item dropdown">
