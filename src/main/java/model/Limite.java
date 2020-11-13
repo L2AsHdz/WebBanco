@@ -16,6 +16,17 @@ public class Limite implements Serializable {
     public Limite() {
     }
 
+    public Limite(int id, String valor) {
+        this.id = id;
+        this.valor = Float.parseFloat(valor);
+    }
+
+    public Limite(int id, String nombre, float valor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.valor = valor;
+    }
+
     public int getId() {
         return id;
     }

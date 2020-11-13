@@ -141,5 +141,7 @@ INSERT INTO turno VALUES(2, 'Vespertino', '13:00', '22:00');
 INSERT INTO turno VALUES(3, 'Toda Hora', '00:00', '23:59:59');
 INSERT INTO usuario VALUES (101, 'Banca Virtual', 'dir101', '101', 'na', '104607dbe6632513bd2489de8069943365bad9fa', 2);
 INSERT INTO empleado VALUES (101, 3);
+INSERT INTO limite VALUES(1, 'Limite reporte 2 (Transacciones)', 0);
+INSERT INTO limite VALUES(2, 'Limite reporte 3 (Transacciones sumadas)', 0);
     
     
