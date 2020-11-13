@@ -1,7 +1,6 @@
 package datos.empleado;
 
 import datos.Conexion;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +52,7 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
     public Empleado getObject(String codigo) {
         String sql = "SELECT u.*, e.idTurno, t.nombre turno FROM usuario u INNER JOIN "
                 + "empleado e ON u.codigo=e.codigoUsuario INNER JOIN turno t ON "
-                + "e.idTurno=t.id WHERE u.tipoUsuario = 2 AND u.codigo = ?";
+                + "e.idTurno=t.id WHERE u.codigo = ?";
 
         Empleado empleado = null;
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {

@@ -59,6 +59,23 @@ public class GerenteServlet extends HttpServlet {
                 listar(request);
                 request.getRequestDispatcher("gerente/gerentes/listGerentes.jsp").forward(request, response);
             }
+            case "editar" -> {
+                String codigo = request.getParameter("codigo");
+                Empleado gerente = empleadoDAO.getObject(codigo);
+                request.setAttribute("gerente", gerente);
+                request.getRequestDispatcher("gerente/gerentes/listGerentes.jsp").forward(request, response);
+            }
+            case "update" -> {
+                String codigo = request.getParameter("codigo");
+                Usuario user = new Usuario(codigo, nombre, direccion, noIdentificacion, sexo);
+                usuarioDAO.update(user);
+                request.getSession().setAttribute("user", user);
+                empleadoDAO.update(new Empleado(new Turno(turno), codigo));
+                
+                request.setAttribute("success", "Los datos del gerente se modificaron");
+                listar(request);
+                request.getRequestDispatcher("gerente/gerentes/listGerentes.jsp").forward(request, response);
+            }
         }
     }
 

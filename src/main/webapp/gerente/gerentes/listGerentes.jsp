@@ -76,7 +76,7 @@
                                                 <td>${gerente.turno.nombre}</td>
                                                 <td>
                                                     <c:if test="${gerente.codigo == user.codigo}">
-                                                        <a href="${pageContext.request.contextPath}/cajero?accion=editar&codigo=${gerente.codigo}" 
+                                                        <a href="${pageContext.request.contextPath}/gerente?accion=editar&codigo=${gerente.codigo}" 
                                                            class="btn btn-info">
                                                             <i class="fas fa-angle-double-right"></i> Editar
                                                         </a>
@@ -124,7 +124,7 @@
                                 <h5>Editar gerente</h5>
                             </div>
                             <div class="card-body">
-                                <form id="form-cajero" action="${pageContext.request.contextPath}/gerente?accion=update" method="POST">
+                                <form id="form-gerente" action="${pageContext.request.contextPath}/gerente?accion=update" method="POST">
                                     <%@include file="formGerente.jsp"%>
                             </div>
                             <div class="card-footer">
