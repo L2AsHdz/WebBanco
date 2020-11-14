@@ -125,4 +125,16 @@ public class CuentaDAOImpl implements CuentaDAO {
         return flag;
     }
 
+    @Override
+    public void updateSaldo(String codigo, float monto) {
+        String sql = "UPDATE cuenta SET saldo = (saldo + ?) WHERE codigo = ?";
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setFloat(1, monto);
+            ps.setInt(2, Integer.parseInt(codigo));
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
+
 }

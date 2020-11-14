@@ -44,7 +44,7 @@
                                             <input type="text" class="form-control" name="nombre" value="${cuenta.cliente.nombre}" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label for="codCuenta">Cantidad a retirar:</label>
+                                            <label for="codCuenta">Codigo de cuenta:</label>
                                             <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
                                         </div>
                                         <div class="form-group">
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="monto">Cantidad a retirar:</label>
-                                            <input type="text" class="form-control" name="monto">
+                                            <input type="text" class="form-control" name="monto" autofocus>
                                         </div>
                                     </form>
                                 </div>
@@ -93,7 +93,7 @@
                             <c:if test="${!empty(success)}" >
                                 <div class="alert alert-success alert-dismissible mt-2">
                                     <button type="button" class="close" data-dismiss="alert">×</button>
-                                    ${error}
+                                    ${success}
                                 </div>
                             </c:if>
                         </div>

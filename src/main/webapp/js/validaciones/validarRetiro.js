@@ -6,6 +6,7 @@ $('document').ready(function () {
             monto: {
                 required: true,
                 number: true,
+                min: 1,
                 max : parseFloat($('#saldo').val())
             }
         },

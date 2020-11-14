@@ -1,16 +1,21 @@
 package web.transaccion;
 
 import datos.CRUD;
+import datos.cuenta.CuentaDAO;
 import datos.cuenta.CuentaDAOImpl;
 import datos.transaccion.TransaccionDAOImpl;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cuenta;
+import model.Empleado;
 import model.Transaccion;
+import model.Usuario;
 
 /**
  * @date 13/11/2020
@@ -21,7 +26,7 @@ import model.Transaccion;
 public class TransaccionServlet extends HttpServlet {
 
     private final CRUD<Transaccion> transaccionDAO = TransaccionDAOImpl.getTransaccionDAO();
-    private final CRUD<Cuenta> cuentaDAO = CuentaDAOImpl.getCuentaDAO();
+    private final CuentaDAO cuentaDAO = CuentaDAOImpl.getCuentaDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,6 +55,20 @@ public class TransaccionServlet extends HttpServlet {
                 }
                 request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
             }
+            case "retirar" -> {
+                Usuario user = (Usuario) request.getSession().getAttribute("user");
+                String codCajero = String.valueOf(user.getCodigo());
+                String codCuenta = request.getParameter("codCuenta");
+                float saldo = Float.parseFloat(request.getParameter("saldo"));
+                float monto = Float.parseFloat(request.getParameter("monto"));
+                
+                transaccionDAO.create(new Transaccion(new Cuenta(codCuenta), "DEBITO", LocalDate.now(), 
+                        LocalTime.now(), monto, new Empleado(codCajero), saldo-monto));
+                cuentaDAO.updateSaldo(codCuenta, -monto);
+                
+                request.setAttribute("success", "El retiro finalizo correctamente");
+                request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
+            }            
         }
     }
 }
