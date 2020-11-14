@@ -42,8 +42,9 @@ public class TransaccionServlet extends HttpServlet {
         String accion = request.getParameter("accion");
 
         switch (accion) {
-            case "infoRetiro" -> {
+            case "verInfo" -> {
                 String codigoCuenta = request.getParameter("codCuenta");
+                String tipo = request.getParameter("tipo");
 
                 if (cuentaDAO.exists(codigoCuenta)) {
                     Cuenta cuenta = cuentaDAO.getObject(codigoCuenta);
@@ -53,7 +54,11 @@ public class TransaccionServlet extends HttpServlet {
                     request.setAttribute("error", "Cuenta ingresada no existe");
                     request.setAttribute("codigo", codigoCuenta);
                 }
-                request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
+                if (tipo.equals("retiro")) {
+                    request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("cajero/depositar.jsp").forward(request, response);
+                }
             }
             case "retirar" -> {
                 Usuario user = (Usuario) request.getSession().getAttribute("user");
@@ -61,14 +66,14 @@ public class TransaccionServlet extends HttpServlet {
                 String codCuenta = request.getParameter("codCuenta");
                 float saldo = Float.parseFloat(request.getParameter("saldo"));
                 float monto = Float.parseFloat(request.getParameter("monto"));
-                
-                transaccionDAO.create(new Transaccion(new Cuenta(codCuenta), "DEBITO", LocalDate.now(), 
-                        LocalTime.now(), monto, new Empleado(codCajero), saldo-monto));
+
+                transaccionDAO.create(new Transaccion(new Cuenta(codCuenta), "DEBITO", LocalDate.now(),
+                        LocalTime.now(), monto, new Empleado(codCajero), saldo - monto));
                 cuentaDAO.updateSaldo(codCuenta, -monto);
-                
+
                 request.setAttribute("success", "El retiro finalizo correctamente");
                 request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
-            }            
+            }
         }
     }
 }

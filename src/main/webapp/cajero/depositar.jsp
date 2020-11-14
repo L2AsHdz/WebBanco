@@ -1,6 +1,6 @@
 <%-- 
-    Document   : retirar
-    Created on : 13/11/2020, 15:21:17
+    Document   : depositar
+    Created on : 13/11/2020, 22:06:06
     Author     : asael
 --%>
 
@@ -20,8 +20,7 @@
 
         <!-- Barra de navegacion -->
         <jsp:include page="/WEB-INF/cajero/navBarCajero.jsp"/>
-
-
+        
         <c:choose>
             <c:when test="${!empty(cuenta)}">
                 <div class="container-fluid mt-4">
@@ -29,16 +28,10 @@
                         <div class="col-xl-4">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>Retiro</h5>
+                                    <h5>Deposito</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form id="form-retiro" action="${pageContext.request.contextPath}/transaccion?accion=retirar" method="POST">
-                                        <div class="form-group">
-                                            <a href="${pageContext.request.contextPath}/cliente?accion=dpiPDF&codCliente=${cuenta.cliente.codigo}" 
-                                               class="btn btn-secondary btn-block" target="_blank">
-                                                <i class="fas fa-file-pdf"></i> Ver DPI
-                                            </a>
-                                        </div>
+                                    <form id="form-deposito" action="${pageContext.request.contextPath}/transaccion?accion=depositar" method="POST">
                                         <div class="form-group">
                                             <label for="nombre">Titular de la cuenta:</label>
                                             <input type="text" class="form-control" name="nombre" value="${cuenta.cliente.nombre}" readonly>
@@ -48,18 +41,14 @@
                                             <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label for="saldo">Saldo disponible:</label>
-                                            <input type="text" class="form-control" id="saldo" name="saldo" value="${cuenta.saldo}" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="monto">Cantidad a retirar:</label>
+                                            <label for="monto">Cantidad a depositar:</label>
                                             <input type="text" class="form-control" name="monto" autofocus>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary btn-block" form="form-retiro">Realizar retiro</button>
-                                    <a href="${pageContext.request.contextPath}/cajero/retirar.jsp" class="btn btn-danger btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" form="form-deposito">Realizar deposito</button>
+                                    <a href="${pageContext.request.contextPath}/cajero/depositar.jsp" class="btn btn-danger btn-block">
                                         Cancelar
                                     </a>
                                 </div>
@@ -73,11 +62,11 @@
                     <div class="row">
                         <div class="col-xl-4"></div>
                         <div class="col-xl-4">
-                            <h3 class="text-center mt-5 mb-3">Retirar</h3>
+                            <h3 class="text-center mt-5 mb-3">Depositar</h3>
 
-                            <form id="form-infoR" action="${pageContext.request.contextPath}/transaccion?accion=verInfo&tipo=retiro" method="POST">
+                            <form id="form-infoD" action="${pageContext.request.contextPath}/transaccion?accion=verInfo&tipo=deposito" method="POST">
                                 <div class="form-group">
-                                    <label for="codCuenta">Codigo de la cuenta</label>
+                                    <label for="codCuenta">Codigo de la cuenta:</label>
                                     <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
                                 </div>
                                 <div class="text-center">
@@ -109,7 +98,6 @@
         <!-- JQuery Validate -->
         <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
         <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
-        <script src="${pageContext.request.contextPath}/js/validaciones/validarRetiro.js"></script>
-
+        <script src="${pageContext.request.contextPath}/js/validaciones/validarDeposito.js"></script>
     </body>
 </html>
