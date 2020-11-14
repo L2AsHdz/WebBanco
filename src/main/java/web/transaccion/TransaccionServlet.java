@@ -41,6 +41,10 @@ public class TransaccionServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
 
+        Usuario user = (Usuario) request.getSession().getAttribute("user");
+        String codCajero = String.valueOf(user.getCodigo());
+        String codCuenta = request.getParameter("codCuenta");
+
         switch (accion) {
             case "verInfo" -> {
                 String codigoCuenta = request.getParameter("codCuenta");
@@ -61,18 +65,24 @@ public class TransaccionServlet extends HttpServlet {
                 }
             }
             case "retirar" -> {
-                Usuario user = (Usuario) request.getSession().getAttribute("user");
-                String codCajero = String.valueOf(user.getCodigo());
-                String codCuenta = request.getParameter("codCuenta");
                 float saldo = Float.parseFloat(request.getParameter("saldo"));
                 float monto = Float.parseFloat(request.getParameter("monto"));
-
                 transaccionDAO.create(new Transaccion(new Cuenta(codCuenta), "DEBITO", LocalDate.now(),
                         LocalTime.now(), monto, new Empleado(codCajero), saldo - monto));
                 cuentaDAO.updateSaldo(codCuenta, -monto);
 
-                request.setAttribute("success", "El retiro finalizo correctamente");
+                request.setAttribute("success", "El retiro se realizo correctamente");
                 request.getRequestDispatcher("cajero/retirar.jsp").forward(request, response);
+            }
+            case "depositar" -> {
+                float saldo = Float.parseFloat(request.getParameter("saldo"));
+                float monto = Float.parseFloat(request.getParameter("monto"));
+                transaccionDAO.create(new Transaccion(new Cuenta(codCuenta), "CREDITO", LocalDate.now(),
+                        LocalTime.now(), monto, new Empleado(codCajero), saldo + monto));
+                cuentaDAO.updateSaldo(codCuenta, monto);
+
+                request.setAttribute("success", "El deposito se realizo correctamente");
+                request.getRequestDispatcher("cajero/depositar.jsp").forward(request, response);
             }
         }
     }

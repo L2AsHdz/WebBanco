@@ -40,6 +40,10 @@
                                             <label for="codCuenta">Codigo de cuenta:</label>
                                             <input type="text" class="form-control" name="codCuenta" value="${cuenta.codigo}" readonly>
                                         </div>
+                                        <div class="form-group d-none">
+                                            <label for="saldo">Saldo disponible:</label>
+                                            <input type="text" class="form-control" id="saldo" name="saldo" value="${cuenta.saldo}" readonly>
+                                        </div>
                                         <div class="form-group">
                                             <label for="monto">Cantidad a depositar:</label>
                                             <input type="text" class="form-control" name="monto" autofocus>
@@ -62,11 +66,11 @@
                     <div class="row">
                         <div class="col-xl-4"></div>
                         <div class="col-xl-4">
-                            <h3 class="text-center mt-5 mb-3">Depositar</h3>
+                            <h3 class="text-center mt-5 mb-4">Depositar</h3>
 
                             <form id="form-infoD" action="${pageContext.request.contextPath}/transaccion?accion=verInfo&tipo=deposito" method="POST">
-                                <div class="form-group">
-                                    <label for="codCuenta">Codigo de la cuenta:</label>
+                                <div class="form-group text-center">
+                                    <label for="codCuenta">Ingrese el codigo de la cuenta</label>
                                     <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
                                 </div>
                                 <div class="text-center">

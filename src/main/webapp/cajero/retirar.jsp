@@ -73,11 +73,11 @@
                     <div class="row">
                         <div class="col-xl-4"></div>
                         <div class="col-xl-4">
-                            <h3 class="text-center mt-5 mb-3">Retirar</h3>
+                            <h3 class="text-center mt-5 mb-4">Retirar</h3>
 
                             <form id="form-infoR" action="${pageContext.request.contextPath}/transaccion?accion=verInfo&tipo=retiro" method="POST">
-                                <div class="form-group">
-                                    <label for="codCuenta">Codigo de la cuenta</label>
+                                <div class="form-group text-center">
+                                    <label for="codCuenta">Ingrese el codigo de la cuenta</label>
                                     <input type="text" class="form-control" name="codCuenta" autofocus value="${codigo}">
                                 </div>
                                 <div class="text-center">
