@@ -74,7 +74,8 @@ public class CuentaDAOImpl implements CuentaDAO {
 
     @Override
     public Cuenta getObject(String codigo) {
-        String sql = "SELECT c.*, u.nombre FROM cuenta c INNER JOIN usuario u ON c.codigoCliente=u.codigo WHERE c.codigo = ?";
+        String sql = "SELECT c.*, u.nombre, u.noIdentificacion FROM cuenta c INNER JOIN "
+                + "usuario u ON c.codigoCliente=u.codigo WHERE c.codigo = ?";
 
         Cuenta cuenta = null;
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
@@ -84,6 +85,7 @@ public class CuentaDAOImpl implements CuentaDAO {
                     Cliente cliente = new Cliente();
                     cliente.setCodigo(rs.getInt("codigoCliente"));
                     cliente.setNombre(rs.getString("nombre"));
+                    cliente.setNoIdentificacion(rs.getString("noIdentificacion"));
                     cuenta = new Cuenta(
                             rs.getString("codigo"),
                             cliente,

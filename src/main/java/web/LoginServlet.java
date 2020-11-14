@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
                 switch (user.getTipoUsuario()) {
                     case 1 -> response.sendRedirect("gerente/inicioGerente.jsp");
                     case 2 -> response.sendRedirect("cajero/inicioCajero.jsp");
-                    case 3 -> response.sendRedirect("cliente/clienteInicio.jsp");
+                    case 3 -> response.sendRedirect("cliente/inicioCliente.jsp");
                 }
             } else {
                 request.setAttribute("errorLogin", "Contraseña incorrecta");
