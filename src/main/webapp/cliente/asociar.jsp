@@ -31,7 +31,7 @@
                                     <h5>Solicitar asociacion</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form id="form-deposito" action="${pageContext.request.contextPath}/solicitud?accion=solicitar" method="POST">
+                                    <form id="form-deposito" action="${pageContext.request.contextPath}/solicitud?accion=enviar" method="POST">
                                         <div class="form-group">
                                             <label for="noId">No. identificacion del titular:</label>
                                             <input type="text" class="form-control" name="noId" value="${cuenta.cliente.noIdentificacion}" readonly>

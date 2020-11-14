@@ -31,7 +31,7 @@ public class SolicitudDAOImpl implements SolicitudDAO {
     
     @Override
     public boolean isPendiente(int codCliente, String codCuenta) {
-        String sql = "SELECT estado FROM solicitudAsociacion WHERE codCliente = ? AND codCuenta = ? AND estado = 2";
+        String sql = "SELECT estado FROM solicitudAsociacion WHERE codCliente = ? AND codCuenta = ? AND estado = 0";
         boolean flag = false;
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setInt(1, codCliente);
@@ -76,8 +76,16 @@ public class SolicitudDAOImpl implements SolicitudDAO {
     }
 
     @Override
-    public void create(Solicitud t) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void create(Solicitud solicitud) {
+        String sql = "INSERT INTO solicitudAsociacion(codCliente, codCuenta) VALUES (?, ?)";
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, solicitud.getCliente().getCodigo());
+            ps.setInt(2, solicitud.getCuenta().getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override

@@ -18,6 +18,11 @@ public class Solicitud implements Serializable {
     public Solicitud() {
     }
 
+    public Solicitud(Cliente cliente, Cuenta cuenta) {
+        this.cliente = cliente;
+        this.cuenta = cuenta;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,13 +53,18 @@ public class Solicitud implements Serializable {
 
     public void setEstadoN(int estadoN) {
         this.estadoN = estadoN;
+        switch (estadoN) {
+            case 0 -> setEstado("Rechazada");
+            case 1 -> setEstado("Aceptada");
+            case 2 -> setEstado("Pendiente");
+        }
     }
 
     public String getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    private void setEstado(String estado) {
         this.estado = estado;
     }
 }

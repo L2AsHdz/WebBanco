@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Cliente;
 import model.Cuenta;
+import model.Solicitud;
 import model.Usuario;
 
 /**
@@ -26,7 +28,7 @@ public class SolicitudServlet extends HttpServlet {
     private final CRUD<Cuenta> cuentaDAO = CuentaDAOImpl.getCuentaDAO();
     private final CuentaAsociadaDAO cuentaAsoDAO = CuentaAsociadaDAOImpl.getCuentaAsoDAO();
     private final SolicitudDAO solicitudDAO = SolicitudDAOImpl.getSolicitudDAO();
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -39,29 +41,37 @@ public class SolicitudServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        
+        Usuario user = (Usuario) request.getSession().getAttribute("user");
+
         switch (accion) {
             case "verInfo" -> {
-                Usuario user = (Usuario) request.getSession().getAttribute("user");
                 String codigoCuenta = request.getParameter("codCuenta");
-                
+
                 if (cuentaDAO.exists(codigoCuenta)) {
                     Cuenta cuenta = cuentaDAO.getObject(codigoCuenta);
                     if (cuenta.getCliente().getNoIdentificacion().equals(user.getNoIdentificacion())) {
-                        request.setAttribute("error", "No se puede asociar una cuenta propia");
+                        request.setAttribute("error", "No es posible enviar una solicitud de asociacion a una cuenta propia");
                     } else if (cuentaAsoDAO.isAsociada(user.getCodigo(), codigoCuenta)) {
                         request.setAttribute("error", "La cuenta ya esta asociada");
                     } else if (solicitudDAO.isPendiente(user.getCodigo(), codigoCuenta)) {
-                        request.setAttribute("error", "Ya existe una solicitud pendiente de aceptar");
+                        request.setAttribute("error", "La cuenta ingresada ya cuenta con una solicitud pendiente de aceptar");
                     } else if (!solicitudDAO.isAvailable(user.getCodigo(), codigoCuenta)) {
-                        request.setAttribute("error", "Limite (3) de solicitud de asociacion a una cuenta alcanzado");
-                    }  else {
-                    request.setAttribute("cuenta", cuenta);
+                        request.setAttribute("error", "Se ha alcanzado el limite de envios de solicitud de asociacion a una misma cuenta");
+                    } else {
+                        request.setAttribute("cuenta", cuenta);
                     }
                 } else {
                     request.setAttribute("error", "Cuenta ingresada no existe");
                     request.setAttribute("codigo", codigoCuenta);
                 }
+                request.getRequestDispatcher("cliente/asociar.jsp").forward(request, response);
+            }
+            case "enviar" -> {
+                String codCuenta = request.getParameter("codCuenta");
+                String codCliente = String.valueOf(user.getCodigo());
+                solicitudDAO.create(new Solicitud(new Cliente(codCliente), new Cuenta(codCuenta)));
+                
+                request.setAttribute("success", "Solicitud de asociacion enviada");
                 request.getRequestDispatcher("cliente/asociar.jsp").forward(request, response);
             }
         }
