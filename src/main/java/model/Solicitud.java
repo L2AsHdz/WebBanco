@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * @date 10/11/2020
@@ -14,13 +15,15 @@ public class Solicitud implements Serializable {
     private Cuenta cuenta;
     private int estadoN;
     private String estado;
+    private LocalDate fecha;
 
     public Solicitud() {
     }
 
-    public Solicitud(Cliente cliente, Cuenta cuenta) {
+    public Solicitud(Cliente cliente, Cuenta cuenta, LocalDate fecha) {
         this.cliente = cliente;
         this.cuenta = cuenta;
+        this.fecha = fecha;
     }
 
     public int getId() {
@@ -54,9 +57,9 @@ public class Solicitud implements Serializable {
     public void setEstadoN(int estadoN) {
         this.estadoN = estadoN;
         switch (estadoN) {
-            case 0 -> setEstado("Rechazada");
+            case 0 -> setEstado("Pendiente");
             case 1 -> setEstado("Aceptada");
-            case 2 -> setEstado("Pendiente");
+            case 2 -> setEstado("Rechazada");
         }
     }
 
@@ -66,5 +69,13 @@ public class Solicitud implements Serializable {
 
     private void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 }

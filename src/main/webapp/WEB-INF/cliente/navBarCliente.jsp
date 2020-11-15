@@ -14,7 +14,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/cliente/asociar.jsp">Asociar cuenta</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/cliente/verSolicitudes.jsp">Ver Solicitudes</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/solicitud?accion=listar">Solicitudes pendientes</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -33,7 +33,7 @@
             </ul>
 
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown dropleft">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                         ${user.nombre}
                     </a>

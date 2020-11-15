@@ -7,6 +7,8 @@ import datos.cuentaAsociada.CuentaAsociadaDAOImpl;
 import datos.solicitud.SolicitudDAO;
 import datos.solicitud.SolicitudDAOImpl;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +45,9 @@ public class SolicitudServlet extends HttpServlet {
         String accion = request.getParameter("accion");
         Usuario user = (Usuario) request.getSession().getAttribute("user");
 
+        String codCuenta = request.getParameter("codCuenta");
+        String codCliente = String.valueOf(user.getCodigo());
+
         switch (accion) {
             case "verInfo" -> {
                 String codigoCuenta = request.getParameter("codCuenta");
@@ -67,12 +72,15 @@ public class SolicitudServlet extends HttpServlet {
                 request.getRequestDispatcher("cliente/asociar.jsp").forward(request, response);
             }
             case "enviar" -> {
-                String codCuenta = request.getParameter("codCuenta");
-                String codCliente = String.valueOf(user.getCodigo());
-                solicitudDAO.create(new Solicitud(new Cliente(codCliente), new Cuenta(codCuenta)));
-                
+                solicitudDAO.create(new Solicitud(new Cliente(codCliente), new Cuenta(codCuenta), LocalDate.now()));
+
                 request.setAttribute("success", "Solicitud de asociacion enviada");
                 request.getRequestDispatcher("cliente/asociar.jsp").forward(request, response);
+            }
+            case "listar" -> {
+                List<Solicitud> solicitudes = solicitudDAO.getSolicitudesPendientes(codCliente);
+                request.setAttribute("solicitudes", solicitudes);
+                request.getRequestDispatcher("cliente/solicitudesPendientes.jsp").forward(request, response);
             }
         }
     }

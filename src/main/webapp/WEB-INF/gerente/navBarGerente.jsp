@@ -44,7 +44,7 @@
             </ul>
 
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown dropleft">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                         ${user.nombre}
                     </a>
