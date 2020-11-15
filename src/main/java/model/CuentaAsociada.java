@@ -15,6 +15,11 @@ public class CuentaAsociada implements Serializable {
     public CuentaAsociada() {
     }
 
+    public CuentaAsociada(Cliente cliente, Cuenta cuenta) {
+        this.cliente = cliente;
+        this.cuenta = cuenta;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }

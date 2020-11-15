@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cliente;
 import model.Cuenta;
+import model.CuentaAsociada;
 import model.Solicitud;
 import model.Usuario;
 
@@ -79,8 +80,21 @@ public class SolicitudServlet extends HttpServlet {
             }
             case "listar" -> {
                 List<Solicitud> solicitudes = solicitudDAO.getSolicitudesPendientes(codCliente);
-                request.setAttribute("solicitudes", solicitudes);
-                request.getRequestDispatcher("cliente/solicitudesPendientes.jsp").forward(request, response);
+                request.getSession().setAttribute("solicitudes", solicitudes);
+                response.sendRedirect("cliente/solicitudesPendientes.jsp");
+            }
+            case "aceptar" -> {
+                String id = request.getParameter("id");
+                codCliente = request.getParameter("cliente");
+                codCuenta = request.getParameter("cuenta");
+                solicitudDAO.updateEstado(id, 1);
+                cuentaAsoDAO.create(new CuentaAsociada(new Cliente(codCliente), new Cuenta(codCuenta)));
+                response.sendRedirect("solicitud?accion=listar");
+            }
+            case "rechazar" -> {
+                String id = request.getParameter("id");
+                solicitudDAO.updateEstado(id, 2);
+                response.sendRedirect("solicitud?accion=listar");
             }
         }
     }

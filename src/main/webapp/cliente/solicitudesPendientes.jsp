@@ -21,8 +21,19 @@
         <!--Barra de navegacion-->
         <jsp:include page="/WEB-INF/cliente/navBarCliente.jsp"/>
 
+        <!-- Agregar c:choose para cuando no haya solicitudes informarlo al cliente -->
         <!--Listado de cajeros-->
         <div class="container-fluid mb-5">
+            <c:if test="${!empty(success)}">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            ${success}
+                        </div>
+                    </div>
+                </div>
+            </c:if>
             <div class="row">
                 <div class="col-xl-10">
                     <div class="card">
@@ -51,11 +62,11 @@
                                             <td>${solicitud.estado}</td>
                                             <td>
                                                 <c:if test="${solicitud.estadoN == 0}">
-                                                    <a href="${pageContext.request.contextPath}/cajero?accion=aceptar&codigo=${solicitud.id}" 
+                                                    <a href="${pageContext.request.contextPath}/solicitud?accion=aceptar&id=${solicitud.id}&cliente=${solicitud.cliente.codigo}&cuenta=${solicitud.cuenta.codigo}" 
                                                        class="btn btn-outline-success">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </a>
-                                                   <a href="${pageContext.request.contextPath}/cajero?accion=rechazar&codigo=${solicitud.id}" 
+                                                    <a href="${pageContext.request.contextPath}/solicitud?accion=rechazar&id=${solicitud.id}" 
                                                        class="btn btn-outline-danger">
                                                         <i class="fas fa-times"></i> Rechazar
                                                     </a>

@@ -54,8 +54,16 @@ public class CuentaAsociadaDAOImpl implements CuentaAsociadaDAO {
     }
 
     @Override
-    public void create(CuentaAsociada t) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void create(CuentaAsociada cuenta) {
+        String sql = "INSERT INTO cuentaAsociada VALUES (?, ?)";
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, cuenta.getCliente().getCodigo());
+            ps.setInt(2, cuenta.getCuenta().getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     @Override
