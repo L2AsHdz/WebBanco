@@ -1,6 +1,7 @@
 package datos.cuenta;
 
 import datos.CRUD;
+import java.util.List;
 import model.Cuenta;
 
 /**
@@ -12,4 +13,5 @@ public interface CuentaDAO extends CRUD<Cuenta> {
 
     String crear(Cuenta c);
     void updateSaldo(String codigo, float monto);
+    List<Cuenta> getCuentasPropias(int codCliente);
 }

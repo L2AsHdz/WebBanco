@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Cliente;
 import model.Cuenta;
@@ -137,6 +138,31 @@ public class CuentaDAOImpl implements CuentaDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         }
+    }
+
+    @Override
+    public List<Cuenta> getCuentasPropias(int codCliente) {
+        String sql = "SELECT * FROM cuenta WHERE codigoCliente = ?";
+        List<Cuenta> cuentas = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCliente);
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                cuentas = new ArrayList();
+                while (rs.next()) {
+                    Cuenta cuenta = new Cuenta(
+                            rs.getString("codigo"),
+                            new Cliente(String.valueOf(codCliente)),
+                            rs.getString("fechaCreacion"),
+                            rs.getString("saldo"));
+                    cuentas.add(cuenta);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return cuentas;
     }
 
 }
