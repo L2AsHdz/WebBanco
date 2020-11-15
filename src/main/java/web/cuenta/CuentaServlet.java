@@ -9,7 +9,6 @@ import datos.usuario.UsuarioDAOImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -93,13 +92,6 @@ public class CuentaServlet extends HttpServlet {
                 request.setAttribute("cuenta", cuenta);
                 request.getRequestDispatcher("gerente/cuentas/crearCuenta.jsp").forward(request, response);
             }
-            case "listar" -> {
-                Usuario user = (Usuario) request.getSession().getAttribute("user");
-                List<Cuenta> cuentasPropias = cuentaDAO.getCuentasPropias(user.getCodigo());
-                //List<Cuenta> cunetaTerceros = cuentaDAO.getCuentasTerceros();
-                request.getSession().setAttribute("cuentasPropias", cuentasPropias);
-                response.sendRedirect("cliente/transferir.jsp");
-            }            
         }
     }
 

@@ -15,6 +15,9 @@
 
         <!--CSS-->
         <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
+
+        <!--JS--> 
+        <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
     </head>
     <body>
 
@@ -39,27 +42,32 @@
                             <h5>Transferir dinero</h5>
                         </div>
                         <div class="card-body">
-                            <form id="form-transferir" action="${pageContext.request.contextPath}/transaccion?accion=transferir" method="POST">
+                            <form id="form-transferencia" action="${pageContext.request.contextPath}/transferencia?accion=transferir" method="POST">
                                 <div class="form-group">
                                     <label for="cuentaO">*Cuenta origen:</label>
-                                    <select class="form-control" name="cunetaO">
+                                    <select class="form-control" name="cuentaO" id="cuentaO">
                                         <option value="">Seleccione cuenta origen...</option>
                                         <c:forEach var="cuenta" items="${cuentasPropias}">
-                                            <option>${cuenta.codigo}</option>
+                                            <option value="${cuenta.codigo}" id="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.saldo}</option>
+                                            <script>
+                                                $("#${cuenta.codigo}").click(function () {
+                                                    $('#saldo').val(${cuenta.saldo});
+                                                });
+                                            </script>
                                         </c:forEach>
                                     </select>
-                                    <span class="float-xl-right">Saldo: Q.${cuenta.saldo}</span><br>
+                                    <input type="text" class="form-control" name="saldo" id="saldo" readonly>
 
-                                    <label for="cuentaO">*Cuenta destino:</label>
-                                    <select class="form-control" name="cunetaO">
+                                    <label for="cuentaD">*Cuenta destino:</label>
+                                    <select class="form-control" name="cuentaD">
                                         <option value="">Seleccione cuenta origen...</option>
                                         <option value="">---Cuentas propias---</option>
                                         <c:forEach var="cuenta" items="${cuentasPropias}">
-                                            <option>${cuenta.codigo}</option>
+                                            <option value="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.saldo}</option>
                                         </c:forEach>
                                         <option value="">---Cuentas de terceros---</option>
-                                        <c:forEach var="cuenta" items="${cuentasTerceros}">
-                                            <option value="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.cliente.nombre}</option>
+                                        <c:forEach var="asociada" items="${cuentasTerceros}">
+                                            <option value="${asociada.cuenta.codigo}">${asociada.cuenta.codigo} - ${asociada.cliente.nombre}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -70,16 +78,29 @@
                             </form>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" form="form-transferir" class="btn btn-primary btn-block">Transferir</button>
+                            <button type="submit" form="form-transferencia" class="btn btn-primary btn-block">Transferir</button>
                         </div>
+                        <c:if test="${!empty(error)}" >
+                            <div class="alert alert-danger alert-dismissible mt-2">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                ${error}
+                            </div>
+                        </c:if>
+                        <c:if test="${!empty(success)}" >
+                            <div class="alert alert-success alert-dismissible mt-2">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                ${success}
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <!--JS--> 
-        <jsp:include page="/WEB-INF/extras/extrasJS.jsp"/>
+        <!-- JQuery Validate -->
+        <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
+        <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
+        <script src="${pageContext.request.contextPath}/js/validaciones/validarTransferencia.js"></script>
 
     </body>
 </html>

@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/cuenta?accion=listar">Transferir dinero</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/transferencia?accion=listar">Transferir dinero</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="${pageContext.request.contextPath}/cliente/asociar.jsp">Asociar cuenta</a>

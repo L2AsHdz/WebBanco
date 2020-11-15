@@ -1,6 +1,7 @@
 package datos.cuentaAsociada;
 
 import datos.CRUD;
+import java.util.List;
 import model.CuentaAsociada;
 
 /**
@@ -11,4 +12,5 @@ import model.CuentaAsociada;
 public interface CuentaAsociadaDAO extends CRUD<CuentaAsociada> {
 
     boolean isAsociada(int codCliente, String codCuenta);
+    List<CuentaAsociada> getCuentasTerceros(int codCliente);
 }
