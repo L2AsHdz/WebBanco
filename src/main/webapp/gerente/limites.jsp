@@ -17,6 +17,9 @@
 
         <!--CSS-->
         <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
+        
+        <!-- MDBootstrap Datatables  -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/datatables.min.css">
     </head>
     <body>
 
@@ -55,7 +58,7 @@
                             <h4>Limites de reportes</h4>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
+                            <table id="limites" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Id</th>
@@ -119,5 +122,20 @@
         <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
         <script src="${pageContext.request.contextPath}/js/validaciones/validarLimite.js"></script>
 
+        <!-- MDBootstrap Datatables  -->
+        <script src="${pageContext.request.contextPath}/js/datatables.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#limites').DataTable({
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "paging": false,
+                    "searching": false
+                });
+                $('.dataTables_length').addClass('bs-select');
+            });
+        </script>
+        
     </body>
 </html>

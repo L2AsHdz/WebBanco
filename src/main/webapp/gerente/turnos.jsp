@@ -15,6 +15,9 @@
 
         <!--CSS-->
         <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
+        
+        <!-- MDBootstrap Datatables  -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/datatables.min.css">
     </head>
     <body>
 
@@ -40,7 +43,7 @@
                             <h4>Turnos disponbles</h4>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped">
+                            <table id="turnos" class="table table-striped table-sm" cellspacing="0" width="100%">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Id</th>
@@ -59,10 +62,10 @@
                                             <td>${turno.horaEntrada}</td>
                                             <td>${turno.horaSalida}</td>
                                             <td>
-                                                <a class="btn btn-info btn-info" data-toggle="modal" data-target="#modal-turno" 
+                                                <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-turno" 
                                                    data-controls-modal="modal-turno" data-backdrop="static" data-keyboard="false"
                                                    onclick="$('#idTurno').val(${turno.id})">
-                                                    <i class="fas fa-angle-double-right"></i> Editar
+                                                    <i class="fas fa-edit"></i> Editar
                                                 </a>
                                             </td>
                                         </tr>
@@ -114,5 +117,21 @@
         <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
         <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
         <script src="${pageContext.request.contextPath}/js/validaciones/validarTurno.js"></script>
+        
+        <!-- MDBootstrap Datatables  -->
+        <script src="${pageContext.request.contextPath}/js/datatables.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#turnos').DataTable({
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "paging": false,
+                    "searching": false
+                });
+                $('.dataTables_length').addClass('bs-select');
+            });
+        </script>
+        
     </body>
 </html>

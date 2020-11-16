@@ -15,6 +15,9 @@
 
         <!--CSS-->
         <jsp:include page="/WEB-INF/extras/extrasCSS.jsp"/>
+        
+        <!-- MDBootstrap Datatables  -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/datatables.min.css">
     </head>
     <body>
 
@@ -53,7 +56,7 @@
                                 <h4>Listado de cajeros</h4>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped">
+                                <table id="listCajeros" class="table table-striped table-sm" cellspacing="0" width="100%">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Codigo</th>
@@ -76,8 +79,8 @@
                                                 <td>${cajero.turno.nombre}</td>
                                                 <td>
                                                     <a href="${pageContext.request.contextPath}/cajero?accion=editar&codigo=${cajero.codigo}" 
-                                                       class="btn btn-info">
-                                                        <i class="fas fa-angle-double-right"></i> Editar
+                                                       class="btn btn-info btn-sm">
+                                                        <i class="fas fa-edit"></i> Editar
                                                     </a>
                                                 </td>
                                             </tr>
@@ -142,6 +145,20 @@
         <script src="${pageContext.request.contextPath}/js/jquery.validate.js"></script>
         <script src="${pageContext.request.contextPath}/js/personalized-messages.js"></script>
         <script src="${pageContext.request.contextPath}/js/validaciones/validarCajero.js"></script>
+        
+        <!-- MDBootstrap Datatables  -->
+        <script src="${pageContext.request.contextPath}/js/datatables.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#listCajeros').DataTable({
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "paging": false
+                });
+                $('.dataTables_length').addClass('bs-select');
+            });
+        </script>
 
     </body>
 </html>
