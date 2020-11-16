@@ -35,7 +35,7 @@
                             <input type="password" class="form-control" name="password" placeholder="Password">
                         </div>
                         <div class="text-center">
-                            <button type="reset" class="btn btn-secondary mr-2">Limpiar</button>
+                            <button type="reset" class="btn btn-info mr-2">Limpiar</button>
                             <button type="submit" class="btn btn-success">Iniciar sesion</button>
                         </div>
                         <c:if test="${!empty(errorLogin)}" >

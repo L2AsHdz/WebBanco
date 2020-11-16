@@ -23,7 +23,7 @@
 
         <c:if test="${empty(cliente)}">
             <!--Boton agregar cliente-->
-            <div class="container-fluid py-3 mb-4 bg-secondary">
+            <div class="container-fluid py-3 mb-4 stylish-color">
                 <div class="row">
                     <div class="col-xl-3">
                         <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#clientModal"

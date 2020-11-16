@@ -59,7 +59,7 @@
                                             <td>${turno.horaEntrada}</td>
                                             <td>${turno.horaSalida}</td>
                                             <td>
-                                                <a class="btn btn-secondary btn-info" data-toggle="modal" data-target="#modal-turno" 
+                                                <a class="btn btn-info btn-info" data-toggle="modal" data-target="#modal-turno" 
                                                    data-controls-modal="modal-turno" data-backdrop="static" data-keyboard="false"
                                                    onclick="$('#idTurno').val(${turno.id})">
                                                     <i class="fas fa-angle-double-right"></i> Editar
