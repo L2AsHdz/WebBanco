@@ -12,7 +12,7 @@ $('document').ready(function () {
             valor1: {
                 required: true,
                 number: true,
-                min: 0
+                min: 1
             },
             valor2: {
                 required: true,

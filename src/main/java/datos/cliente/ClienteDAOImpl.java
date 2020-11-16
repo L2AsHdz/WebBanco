@@ -1,6 +1,8 @@
 package datos.cliente;
 
+import datos.CRUD;
 import datos.Conexion;
+import datos.limite.LimiteDAOImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cliente;
+import model.Limite;
 
 /**
  * @date 11/11/2020
@@ -20,6 +23,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     
     private static ClienteDAOImpl clienteDAO = null;
     private final Connection conexion = Conexion.getConexion();
+    private final CRUD<Limite> limiteDAO = LimiteDAOImpl.getLimiteDAO();
     
     private ClienteDAOImpl() {
     }
@@ -159,6 +163,35 @@ public class ClienteDAOImpl implements ClienteDAO {
             e.printStackTrace(System.out);
         }
         return datosPDF;
+    }
+
+    @Override
+    public List<Cliente> getClientesWithTrGreaterThanLimite() {
+        String sql = "SELECT u.*, c.* from usuario u inner join cliente c on u.codigo=c.codigoUsuario"
+                + " inner join cuenta ct on c.codigoUsuario=ct.codigoCliente inner join transaccion t on "
+                + "ct.codigo=t.codCuenta where t.monto > ? group by c.codigoUsuario;";
+        List<Cliente> clientes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setFloat(1, limiteDAO.getObject("1").getValor());
+            try(ResultSet rs = ps.executeQuery()) {
+            clientes = new ArrayList();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
+                        rs.getString("birth"),
+                        rs.getBinaryStream("pdfDPI"),
+                        rs.getString("codigo"), 
+                        rs.getString("nombre"), 
+                        rs.getString("direccion"), 
+                        rs.getString("noIdentificacion"), 
+                        rs.getString("sexo"));
+                clientes.add(cliente);
+            }}
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return clientes;
     }
 
 }

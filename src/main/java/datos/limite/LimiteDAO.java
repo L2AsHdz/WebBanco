@@ -9,5 +9,6 @@ import model.Limite;
  * @author asael
  */
 public interface LimiteDAO extends CRUD<Limite> {
-
+    
+    boolean wasSetted();
 }

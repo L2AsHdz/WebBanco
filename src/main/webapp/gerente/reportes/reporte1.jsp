@@ -82,6 +82,7 @@
                 $('#historialCambios').DataTable({
                     "scrollY": "200px",
                     "scrollCollapse": true,
+                    "paging": false
                 });
                 $('.dataTables_length').addClass('bs-select');
             });

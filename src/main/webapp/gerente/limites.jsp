@@ -94,9 +94,9 @@
                                         </c:forEach>
 
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary btn-block">Guardar cambios</button>
+                                            <button type="submit" class="btn success-color btn-block">Guardar cambios</button>
                                             <button id="limpiar" type="reset" class="btn btn-primary d-none">Limpiar</button>
-                                            <a href="${pageContext.request.contextPath}/limite?accion=listar" class="btn btn-secondary btn-block">
+                                            <a href="${pageContext.request.contextPath}/limite?accion=listar" class="btn danger-color btn-block">
                                                 Cancelar
                                             </a>
                                         </div>

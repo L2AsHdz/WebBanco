@@ -1,6 +1,7 @@
 package datos.cliente;
 
 import datos.CRUD;
+import java.util.List;
 import model.Cliente;
 
 /**
@@ -11,4 +12,5 @@ import model.Cliente;
 public interface ClienteDAO extends CRUD<Cliente> {
     
     byte[] getPDFdpi(String codigo);
+    List<Cliente> getClientesWithTrGreaterThanLimite();
 }
