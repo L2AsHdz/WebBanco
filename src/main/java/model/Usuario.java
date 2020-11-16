@@ -16,6 +16,7 @@ public class Usuario implements Serializable {
     private String noIdentificacion;
     private String sexo;
     private int tipoUsuario;
+    private String tipoUsuarioS;
     private String password;
 
     public Usuario() {
@@ -98,6 +99,11 @@ public class Usuario implements Serializable {
 
     public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+        switch (tipoUsuario) {
+            case 1 -> this.tipoUsuarioS = "Gerente";
+            case 2 -> this.tipoUsuarioS = "Empleado";
+            case 3 -> this.tipoUsuarioS = "Cliente";
+        }
     }
 
     public String getPassword() {
@@ -110,5 +116,13 @@ public class Usuario implements Serializable {
     
     public String getEncryptPassword() {
         return DigestUtils.sha1Hex(password);
+    }
+
+    public String getTipoUsuarioS() {
+        return tipoUsuarioS;
+    }
+
+    public void setTipoUsuarioS(String tipoUsuarioS) {
+        this.tipoUsuarioS = tipoUsuarioS;
     }
 }

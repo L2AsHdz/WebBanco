@@ -32,7 +32,7 @@
                     </a>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/gerente/reportes/historialCambios.jsp">Historial de cambios</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte1">Historial de cambios</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R2</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R3</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R4</a>
