@@ -7,6 +7,8 @@ import datos.cuentaAsociada.CuentaAsociadaDAO;
 import datos.cuentaAsociada.CuentaAsociadaDAOImpl;
 import datos.transaccion.TransaccionDAOImpl;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cuenta;
 import model.CuentaAsociada;
+import model.Empleado;
 import model.Transaccion;
 import model.Usuario;
 
@@ -52,6 +55,32 @@ public class TransferenciaServlet extends HttpServlet {
                 request.getSession().setAttribute("cuentasTerceros", cuentasTerceros);
                 response.sendRedirect("cliente/transferir.jsp");
             }    
+            case "transferir" -> {
+                String codCuentaO = request.getParameter("cuentaO");
+                String codCuentaD = request.getParameter("cuentaD");
+                float monto = Float.parseFloat(request.getParameter("monto"));
+                
+                Cuenta cuentaOrigen = cuentaDAO.getObject(codCuentaO);
+                Cuenta cuentaDestino = cuentaDAO.getObject(codCuentaD);
+                Empleado cajero = new Empleado("101");
+                
+                if (monto > cuentaOrigen.getSaldo()) {
+                    request.setAttribute("monto", monto);
+                    request.setAttribute("error", "El monto ingresado supera el saldo disponible de la cuenta");
+                    request.getRequestDispatcher("cliente/transferir.jsp").forward(request, response);
+                } else {
+                    transaccionDAO.create(new Transaccion(cuentaOrigen, "DEBITO", LocalDate.now(), 
+                            LocalTime.now(), monto, cajero, cuentaOrigen.getSaldo() - monto));
+                    cuentaDAO.updateSaldo(codCuentaO, -monto);
+                    
+                    transaccionDAO.create(new Transaccion(cuentaDestino, "CREDITO", LocalDate.now(), 
+                            LocalTime.now(), monto, cajero, cuentaDestino.getSaldo() + monto));
+                    cuentaDAO.updateSaldo(codCuentaD, monto);
+                    
+                    request.setAttribute("success", "La transaccion se realizo correctamente");
+                    request.getRequestDispatcher("cliente/transferir.jsp").forward(request, response);
+                }
+            }            
         }
     }
 }

@@ -25,16 +25,6 @@
         <%@include file="/WEB-INF/cliente/navBarCliente.jsp" %>
 
         <div class="container-fluid mt-5">
-            <c:if test="${!empty(success)}">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-3">
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            ${success}
-                        </div>
-                    </div>
-                </div>
-            </c:if>
             <div class="row d-flex justify-content-center">
                 <div class="col-xl-4">
                     <div class="card">
@@ -56,11 +46,11 @@
                                             </script>
                                         </c:forEach>
                                     </select>
-                                    <input type="text" class="form-control" name="saldo" id="saldo" readonly>
-
+                                </div>
+                                <div class="form-group">
                                     <label for="cuentaD">*Cuenta destino:</label>
                                     <select class="form-control" name="cuentaD">
-                                        <option value="">Seleccione cuenta origen...</option>
+                                        <option value="">Seleccione cuenta destino...</option>
                                         <option value="">---Cuentas propias---</option>
                                         <c:forEach var="cuenta" items="${cuentasPropias}">
                                             <option value="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.saldo}</option>
@@ -80,19 +70,19 @@
                         <div class="card-footer">
                             <button type="submit" form="form-transferencia" class="btn btn-primary btn-block">Transferir</button>
                         </div>
-                        <c:if test="${!empty(error)}" >
-                            <div class="alert alert-danger alert-dismissible mt-2">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                ${error}
-                            </div>
-                        </c:if>
-                        <c:if test="${!empty(success)}" >
-                            <div class="alert alert-success alert-dismissible mt-2">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                ${success}
-                            </div>
-                        </c:if>
                     </div>
+                    <c:if test="${!empty(error)}" >
+                        <div class="alert alert-danger alert-dismissible mt-2">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            ${error}
+                        </div>
+                    </c:if>
+                    <c:if test="${!empty(success)}" >
+                        <div class="alert alert-success alert-dismissible mt-2">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            ${success}
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>
