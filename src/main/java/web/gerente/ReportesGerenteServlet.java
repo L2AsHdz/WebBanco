@@ -57,6 +57,11 @@ public class ReportesGerenteServlet extends HttpServlet {
                 List<Cliente> clientes = clienteDAO.get10ClientesWithMoreMoney();
                 request.setAttribute("clientes", clientes);
                 request.getRequestDispatcher("gerente/reportes/reporte4.jsp").forward(request, response);
+            }
+            case "reporte5" -> {
+                List<Cliente> clientes = clienteDAO.getClientesSinTransacciones();
+                request.setAttribute("clientes", clientes);
+                request.getRequestDispatcher("gerente/reportes/reporte5.jsp").forward(request, response);
             }            
         }
     }

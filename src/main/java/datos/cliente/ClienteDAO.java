@@ -15,4 +15,5 @@ public interface ClienteDAO extends CRUD<Cliente> {
     List<Cliente> getClientesWithTrGreaterThanLimite();
     List<Cliente> getClientesWithTrSumGreaterThanLimite();
     List<Cliente> get10ClientesWithMoreMoney();
+    List<Cliente> getClientesSinTransacciones();
 }

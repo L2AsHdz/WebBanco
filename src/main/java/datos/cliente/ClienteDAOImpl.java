@@ -233,13 +233,40 @@ public class ClienteDAOImpl implements ClienteDAO {
                 + "GROUP BY ct.codigoCliente HAVING SUM(ct.saldo) > 0 ORDER BY dineroT DESC LIMIT 10;";
         List<Cliente> clientes = null;
 
-        try ( PreparedStatement ps = conexion.prepareStatement(sql);  
-                ResultSet rs = ps.executeQuery()) {
+        try ( PreparedStatement ps = conexion.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             clientes = new ArrayList();
 
             while (rs.next()) {
                 ClienteDTO cliente = new ClienteDTO(
                         rs.getFloat("dineroT"),
+                        rs.getString("birth"),
+                        rs.getBinaryStream("pdfDPI"),
+                        rs.getString("codigo"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("noIdentificacion"),
+                        rs.getString("sexo"));
+                clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return clientes;
+    }
+
+    @Override
+    public List<Cliente> getClientesSinTransacciones() {
+        String sql = "SELECT t.monto, u.*, c.* from usuario u inner join cliente c on u.codigo=c.codigoUsuario"
+                + " inner join cuenta ct on c.codigoUsuario=ct.codigoCliente left join transaccion t on "
+                + "ct.codigo=t.codCuenta where t.codigo IS NULL";
+        List<Cliente> clientes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql);  
+                ResultSet rs = ps.executeQuery()) {
+            clientes = new ArrayList();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
                         rs.getString("birth"),
                         rs.getBinaryStream("pdfDPI"),
                         rs.getString("codigo"),
