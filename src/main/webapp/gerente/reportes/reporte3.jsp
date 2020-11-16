@@ -1,6 +1,6 @@
 <%-- 
-    Document   : clientesConTrGreaterThanLimite
-    Created on : 16/11/2020, 10:36:34
+    Document   : reporte3
+    Created on : 16/11/2020, 11:55:51
     Author     : asael
 --%>
 
@@ -24,7 +24,7 @@
         <!--Barra de navegacion-->
         <jsp:include page="/WEB-INF/gerente/navBarGerente.jsp" />
 
-        <!-- Clientes con transacciones mayores a un limite -->
+        <!-- Clientes con transacciones sumadas mayores a un limite -->
         <div class="container-fluid my-5 pl-4">
             <div class="row">
                 <div class="col-xl-10">
@@ -32,10 +32,10 @@
                         <c:when test="${!empty(clientes)}">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Clientes con transacciones mayores a Q.${limite}</h4>
+                                    <h4>Clientes con transacciones sumadas mayores a Q.${limite}</h4>
                                 </div>
                                 <div class="card-body">
-                                    <table id="reporte2" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                    <table id="reporte3" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Codigo</th>
@@ -67,7 +67,7 @@
                             <h4>No se han establecido los limites</h4>
                         </c:when>
                         <c:otherwise>
-                            <h4>No hay clientes con transacciones mayores a Q.${limite}</h4>
+                            <h4>No hay clientes con transacciones sumadas mayores a Q.${limite}</h4>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -82,7 +82,7 @@
 
         <script>
             $(document).ready(function () {
-                $('#reporte2').DataTable({
+                $('#reporte3').DataTable({
                     "scrollY": "200px",
                     "scrollCollapse": true,
                     "paging": false

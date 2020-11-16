@@ -169,11 +169,41 @@ public class ClienteDAOImpl implements ClienteDAO {
     public List<Cliente> getClientesWithTrGreaterThanLimite() {
         String sql = "SELECT u.*, c.* from usuario u inner join cliente c on u.codigo=c.codigoUsuario"
                 + " inner join cuenta ct on c.codigoUsuario=ct.codigoCliente inner join transaccion t on "
-                + "ct.codigo=t.codCuenta where t.monto > ? group by c.codigoUsuario;";
+                + "ct.codigo=t.codCuenta where t.monto > ? group by c.codigoUsuario";
         List<Cliente> clientes = null;
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setFloat(1, limiteDAO.getObject("1").getValor());
+            try(ResultSet rs = ps.executeQuery()) {
+            clientes = new ArrayList();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
+                        rs.getString("birth"),
+                        rs.getBinaryStream("pdfDPI"),
+                        rs.getString("codigo"), 
+                        rs.getString("nombre"), 
+                        rs.getString("direccion"), 
+                        rs.getString("noIdentificacion"), 
+                        rs.getString("sexo"));
+                clientes.add(cliente);
+            }}
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return clientes;
+    }
+
+    @Override
+    public List<Cliente> getClientesWithTrSumGreaterThanLimite() {
+        String sql = "SELECT u.*, c.*, SUM(t.monto) from usuario u INNER JOIN "
+                + "cliente c ON u.codigo=c.codigoUsuario INNER JOIN cuenta ct ON "
+                + "c.codigoUsuario=ct.codigoCliente INNER JOIN transaccion t ON "
+                + "ct.codigo=t.codCuenta GROUP BY c.codigoUsuario HAVING SUM(t.monto) > ?";
+        List<Cliente> clientes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setFloat(1, limiteDAO.getObject("2").getValor());
             try(ResultSet rs = ps.executeQuery()) {
             clientes = new ArrayList();
 

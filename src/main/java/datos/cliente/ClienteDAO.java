@@ -13,4 +13,5 @@ public interface ClienteDAO extends CRUD<Cliente> {
     
     byte[] getPDFdpi(String codigo);
     List<Cliente> getClientesWithTrGreaterThanLimite();
+    List<Cliente> getClientesWithTrSumGreaterThanLimite();
 }

@@ -48,17 +48,33 @@ public class ReportesGerenteServlet extends HttpServlet {
                 request.getRequestDispatcher("gerente/reportes/reporte1.jsp").forward(request, response);
             }
             case "reporte2" -> {
-                boolean wasSetted = limiteDAO.wasSetted();
-
-                if (wasSetted) {
-                    List<Cliente> clientes = clienteDAO.getClientesWithTrGreaterThanLimite();
-                    request.setAttribute("clientes", clientes);
-                    request.setAttribute("limite", limiteDAO.getObject("1").getValor());
-                } else {
-                    request.setAttribute("wasSetted", false);
-                }
-                request.getRequestDispatcher("gerente/reportes/reporte2.jsp").forward(request, response);
+                getClientesR2R3(request, response, "reporte2");
+            }
+            case "reporte3" -> {
+                getClientesR2R3(request, response, "reporte3");
             }
         }
+    }
+
+    private void getClientesR2R3(HttpServletRequest request, HttpServletResponse response, String caso) throws ServletException, IOException {
+        boolean wasSetted = limiteDAO.wasSetted();
+
+        if (wasSetted) {
+            List<Cliente> clientes;
+            Float limite;
+            if (caso.equals("reporte2")) {
+                clientes = clienteDAO.getClientesWithTrGreaterThanLimite();
+                limite = limiteDAO.getObject("1").getValor();
+            } else {
+                clientes = clienteDAO.getClientesWithTrSumGreaterThanLimite();
+                limite = limiteDAO.getObject("2").getValor();
+            }
+            request.setAttribute("clientes", clientes);
+            request.setAttribute("limite", limite);
+        } else {
+            request.setAttribute("wasSetted", false);
+        }
+        String nameR = caso.equals("reporte2") ? "reporte2" : "reporte3";
+        request.getRequestDispatcher("gerente/reportes/" + nameR+".jsp").forward(request, response);
     }
 }
