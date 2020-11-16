@@ -32,7 +32,7 @@ public class TransferenciaServlet extends HttpServlet {
     private final CuentaDAO cuentaDAO = CuentaDAOImpl.getCuentaDAO();
     private final CuentaAsociadaDAO cuentaAsoDAO = CuentaAsociadaDAOImpl.getCuentaAsoDAO();
     private final CRUD<Transaccion> transaccionDAO = TransaccionDAOImpl.getTransaccionDAO();
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -45,42 +45,47 @@ public class TransferenciaServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        
+
         switch (accion) {
             case "listar" -> {
-                Usuario user = (Usuario) request.getSession().getAttribute("user");
-                List<Cuenta> cuentasPropias = cuentaDAO.getCuentasPropias(user.getCodigo());
-                List<CuentaAsociada> cuentasTerceros = cuentaAsoDAO.getCuentasTerceros(user.getCodigo());
-                request.getSession().setAttribute("cuentasPropias", cuentasPropias);
-                request.getSession().setAttribute("cuentasTerceros", cuentasTerceros);
+                listar(request);
                 response.sendRedirect("cliente/transferir.jsp");
-            }    
+            }
             case "transferir" -> {
                 String codCuentaO = request.getParameter("cuentaO");
                 String codCuentaD = request.getParameter("cuentaD");
                 float monto = Float.parseFloat(request.getParameter("monto"));
-                
+
                 Cuenta cuentaOrigen = cuentaDAO.getObject(codCuentaO);
                 Cuenta cuentaDestino = cuentaDAO.getObject(codCuentaD);
                 Empleado cajero = new Empleado("101");
-                
+
                 if (monto > cuentaOrigen.getSaldo()) {
                     request.setAttribute("monto", monto);
                     request.setAttribute("error", "El monto ingresado supera el saldo disponible de la cuenta");
                     request.getRequestDispatcher("cliente/transferir.jsp").forward(request, response);
                 } else {
-                    transaccionDAO.create(new Transaccion(cuentaOrigen, "DEBITO", LocalDate.now(), 
+                    transaccionDAO.create(new Transaccion(cuentaOrigen, "DEBITO", LocalDate.now(),
                             LocalTime.now(), monto, cajero, cuentaOrigen.getSaldo() - monto));
                     cuentaDAO.updateSaldo(codCuentaO, -monto);
-                    
-                    transaccionDAO.create(new Transaccion(cuentaDestino, "CREDITO", LocalDate.now(), 
+
+                    transaccionDAO.create(new Transaccion(cuentaDestino, "CREDITO", LocalDate.now(),
                             LocalTime.now(), monto, cajero, cuentaDestino.getSaldo() + monto));
                     cuentaDAO.updateSaldo(codCuentaD, monto);
-                    
+
+                    listar(request);
                     request.setAttribute("success", "La transaccion se realizo correctamente");
                     request.getRequestDispatcher("cliente/transferir.jsp").forward(request, response);
                 }
-            }            
+            }
         }
+    }
+
+    private void listar(HttpServletRequest request) {
+        Usuario user = (Usuario) request.getSession().getAttribute("user");
+        List<Cuenta> cuentasPropias = cuentaDAO.getCuentasPropias(user.getCodigo());
+        List<CuentaAsociada> cuentasTerceros = cuentaAsoDAO.getCuentasTerceros(user.getCodigo());
+        request.getSession().setAttribute("cuentasPropias", cuentasPropias);
+        request.getSession().setAttribute("cuentasTerceros", cuentasTerceros);
     }
 }
