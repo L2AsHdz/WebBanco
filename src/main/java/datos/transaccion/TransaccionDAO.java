@@ -1,6 +1,7 @@
 package datos.transaccion;
 
 import datos.CRUD;
+import java.util.List;
 import model.Transaccion;
 
 /**
@@ -11,4 +12,8 @@ import model.Transaccion;
 public interface TransaccionDAO extends CRUD<Transaccion> {
 
     void create(String codigo, Transaccion t);
+    List<Transaccion> getRetirosTurno(int codCajero);
+    List<Transaccion> getDepositosTurno(int codCajero);
+    float getTotalRetiroTurno(int codCajero);
+    float getTotalDepositoTurno(int codCajero);
 }

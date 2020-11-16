@@ -5,7 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import model.Cuenta;
+import model.Empleado;
 import model.Transaccion;
 
 /**
@@ -103,6 +106,98 @@ public class TransaccionDAOImpl implements TransaccionDAO {
             ex.printStackTrace(System.out);
         }
         return flag;
+    }
+
+    @Override
+    public List<Transaccion> getRetirosTurno(int codCajero) {
+        String sql = "SELECT * FROM transaccion WHERE codCajero = ? AND fecha = CAST(NOW() AS DATE) AND tipo = 'DEBITO'";
+        List<Transaccion> retiros = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCajero);
+            try ( ResultSet rs = ps.executeQuery()) {
+            retiros = new ArrayList();
+                while (rs.next()) {
+                    Transaccion transaccion = new Transaccion(
+                            rs.getString("codigo"),
+                            new Cuenta(rs.getString("codCuenta")),
+                            "DEBITO",
+                            rs.getString("fecha"),
+                            rs.getString("hora"),
+                            rs.getString("monto"),
+                            new Empleado(rs.getString("codCajero")),
+                            rs.getString("saldoCuenta"));
+                    retiros.add(transaccion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return retiros;
+    }
+
+    @Override
+    public List<Transaccion> getDepositosTurno(int codCajero) {
+        String sql = "SELECT * FROM transaccion WHERE codCajero = ? AND fecha = CAST(NOW() AS DATE) AND tipo = 'CREDITO'";
+        List<Transaccion> depositos = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCajero);
+            try ( ResultSet rs = ps.executeQuery()) {
+            depositos = new ArrayList();
+                while (rs.next()) {
+                    Transaccion transaccion = new Transaccion(
+                            rs.getString("codigo"),
+                            new Cuenta(rs.getString("codCuenta")),
+                            "CREDITO",
+                            rs.getString("fecha"),
+                            rs.getString("hora"),
+                            rs.getString("monto"),
+                            new Empleado(rs.getString("codCajero")),
+                            rs.getString("saldoCuenta"));
+                    depositos.add(transaccion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return depositos;
+    }
+
+    @Override
+    public float getTotalRetiroTurno(int codCajero) {
+        String sql = "SELECT SUM(monto) total FROM transaccion WHERE codCajero = ? AND fecha = CAST(NOW() AS DATE) AND tipo = 'DEBITO'";
+        float total = 0;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCajero);
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    total = rs.getFloat("total");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return total;
+    }
+
+    @Override
+    public float getTotalDepositoTurno(int codCajero) {
+        String sql = "SELECT SUM(monto) total FROM transaccion WHERE codCajero = ? AND fecha = CAST(NOW() AS DATE) AND tipo = 'CREDITO'";
+        float total = 0;
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCajero);
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    total = rs.getFloat("total");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return total;
     }
 
 }
