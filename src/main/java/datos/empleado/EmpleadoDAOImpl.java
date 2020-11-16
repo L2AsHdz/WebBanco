@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.CajeroDTO;
 import model.Empleado;
 import model.Turno;
 
@@ -160,6 +161,52 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
             e.printStackTrace(System.out);
         }
         return cajeros;
+    }
+
+    @Override
+    public Empleado getCajeroConMasTransacciones(String fechaInicial, String fechaFinal, int opcion) {
+        String sql = "SELECT COUNT(tr.codigo) transacciones, u.*, t.nombre turno FROM usuario u INNER JOIN empleado e "
+                + "ON u.codigo=e.codigoUsuario INNER JOIN turno t ON e.idTurno=t.id INNER JOIN transaccion tr ON "
+                + "u.codigo=tr.codCajero";
+        String interavalo = " WHERE tr.fecha BETWEEN ? AND ?";
+        String order = " GROUP BY u.codigo ORDER BY transacciones DESC LIMIT 1";
+        CajeroDTO empleado = null;
+        PreparedStatement ps = null;
+
+        try {
+            switch (opcion) {
+                case 1 -> {
+                    ps = conexion.prepareStatement(sql + interavalo + order);
+                    ps.setString(1, fechaInicial);
+                    ps.setString(2, fechaFinal);
+                }
+                case 2 -> {
+                    ps = conexion.prepareStatement(sql + order);
+                }
+            }
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    empleado = new CajeroDTO(
+                            rs.getInt("transacciones"),
+                            new Turno(rs.getString("turno")),
+                            rs.getString("codigo"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("noIdentificacion"),
+                            rs.getString("sexo"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+        return empleado;
     }
 
 }

@@ -13,4 +13,5 @@ public interface EmpleadoDAO extends CRUD<Empleado> {
 
     List<Empleado> getListGerentes();
     List<Empleado> getListCajeros();
+    Empleado getCajeroConMasTransacciones(String fechaInicial, String fechaFinal, int opcion);
 }

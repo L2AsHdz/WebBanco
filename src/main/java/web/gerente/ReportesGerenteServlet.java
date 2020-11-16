@@ -4,6 +4,8 @@ import datos.CRUD;
 import datos.cambioRealizado.CambioRealizadoDAOImpl;
 import datos.cliente.ClienteDAO;
 import datos.cliente.ClienteDAOImpl;
+import datos.empleado.EmpleadoDAO;
+import datos.empleado.EmpleadoDAOImpl;
 import datos.limite.LimiteDAO;
 import datos.limite.LimiteDAOImpl;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CambioRealizado;
+import model.Empleado;
 import model.cliente.Cliente;
 
 /**
@@ -27,6 +30,7 @@ public class ReportesGerenteServlet extends HttpServlet {
     private final CRUD<CambioRealizado> cambioDAO = CambioRealizadoDAOImpl.getCambioDAO();
     private final ClienteDAO clienteDAO = ClienteDAOImpl.getClienteDAO();
     private final LimiteDAO limiteDAO = LimiteDAOImpl.getLimiteDAO();
+    private final EmpleadoDAO empleadoDAO = EmpleadoDAOImpl.getEmpleadoDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +66,26 @@ public class ReportesGerenteServlet extends HttpServlet {
                 List<Cliente> clientes = clienteDAO.getClientesSinTransacciones();
                 request.setAttribute("clientes", clientes);
                 request.getRequestDispatcher("gerente/reportes/reporte5.jsp").forward(request, response);
-            }            
+            }
+            case "reporte7" -> {
+                String fechaInicial = request.getParameter("fechaInicial");
+                String fechaFinal = request.getParameter("fechaFinal");
+                Empleado cajero;
+                if (!fechaFinal.trim().isEmpty() && !fechaInicial.trim().isEmpty()) {
+                    cajero = empleadoDAO.getCajeroConMasTransacciones(fechaInicial, fechaFinal, 1);
+                } else {
+                    cajero = empleadoDAO.getCajeroConMasTransacciones(fechaInicial, fechaFinal, 2);
+                }
+
+                if (cajero != null) {
+                    request.setAttribute("fechaInicial", fechaInicial);
+                    request.setAttribute("fechaFinal", fechaFinal);
+                    request.setAttribute("cajero", cajero);
+                } else {
+                    request.setAttribute("noData", true);
+                }
+                request.getRequestDispatcher("gerente/reportes/reporte7.jsp").forward(request, response);
+            }
         }
     }
 
@@ -85,6 +108,6 @@ public class ReportesGerenteServlet extends HttpServlet {
             request.setAttribute("wasSetted", false);
         }
         String nameR = caso.equals("reporte2") ? "reporte2" : "reporte3";
-        request.getRequestDispatcher("gerente/reportes/" + nameR+".jsp").forward(request, response);
+        request.getRequestDispatcher("gerente/reportes/" + nameR + ".jsp").forward(request, response);
     }
 }
