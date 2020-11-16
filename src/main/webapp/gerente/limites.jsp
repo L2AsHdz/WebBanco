@@ -131,7 +131,8 @@
                     "scrollY": "200px",
                     "scrollCollapse": true,
                     "paging": false,
-                    "searching": false
+                    "searching": false,
+                    "ordering": false
                 });
                 $('.dataTables_length').addClass('bs-select');
             });

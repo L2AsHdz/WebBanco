@@ -1,5 +1,6 @@
 package model;
 
+import model.cliente.Cliente;
 import java.io.Serializable;
 import java.time.LocalDate;
 

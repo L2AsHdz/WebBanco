@@ -1,6 +1,6 @@
 package others.validators;
 
-import model.Cliente;
+import model.cliente.Cliente;
 import others.exceptions.FileInputException;
 
 /**

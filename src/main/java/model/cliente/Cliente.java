@@ -1,4 +1,4 @@
-package model;
+package model.cliente;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import model.Usuario;
 
 /**
  * @date 10/11/2020

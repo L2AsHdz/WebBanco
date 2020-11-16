@@ -2,7 +2,7 @@ package others.validators;
 
 import datos.CRUD;
 import datos.cuenta.CuentaDAOImpl;
-import model.Cliente;
+import model.cliente.Cliente;
 import model.Cuenta;
 import others.exceptions.FileInputException;
 

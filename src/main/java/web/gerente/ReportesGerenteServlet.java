@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CambioRealizado;
-import model.Cliente;
+import model.cliente.Cliente;
 
 /**
  * @date 16/11/2020
@@ -53,6 +53,11 @@ public class ReportesGerenteServlet extends HttpServlet {
             case "reporte3" -> {
                 getClientesR2R3(request, response, "reporte3");
             }
+            case "reporte4" -> {
+                List<Cliente> clientes = clienteDAO.get10ClientesWithMoreMoney();
+                request.setAttribute("clientes", clientes);
+                request.getRequestDispatcher("gerente/reportes/reporte4.jsp").forward(request, response);
+            }            
         }
     }
 

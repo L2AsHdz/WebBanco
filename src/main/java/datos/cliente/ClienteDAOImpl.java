@@ -11,8 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cliente;
+import model.cliente.Cliente;
 import model.Limite;
+import model.cliente.ClienteDTO;
 
 /**
  * @date 11/11/2020
@@ -20,19 +21,19 @@ import model.Limite;
  * @author asael
  */
 public class ClienteDAOImpl implements ClienteDAO {
-    
+
     private static ClienteDAOImpl clienteDAO = null;
     private final Connection conexion = Conexion.getConexion();
     private final CRUD<Limite> limiteDAO = LimiteDAOImpl.getLimiteDAO();
-    
+
     private ClienteDAOImpl() {
     }
-    
+
     public static ClienteDAOImpl getClienteDAO() {
         if (clienteDAO == null) {
             clienteDAO = new ClienteDAOImpl();
         }
-        
+
         return clienteDAO;
     }
 
@@ -41,18 +42,17 @@ public class ClienteDAOImpl implements ClienteDAO {
         String sql = "SELECT u.*, c.* FROM usuario u INNER JOIN cliente c ON u.codigo=c.codigoUsuario";
         List<Cliente> clientes = null;
 
-        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  
-                ResultSet rs = declaracion.executeQuery()) {
+        try ( PreparedStatement declaracion = conexion.prepareStatement(sql);  ResultSet rs = declaracion.executeQuery()) {
             clientes = new ArrayList();
 
             while (rs.next()) {
                 Cliente gerente = new Cliente(
                         rs.getString("birth"),
                         rs.getBinaryStream("pdfDPI"),
-                        rs.getString("codigo"), 
-                        rs.getString("nombre"), 
-                        rs.getString("direccion"), 
-                        rs.getString("noIdentificacion"), 
+                        rs.getString("codigo"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("noIdentificacion"),
                         rs.getString("sexo"));
                 clientes.add(gerente);
             }
@@ -88,10 +88,10 @@ public class ClienteDAOImpl implements ClienteDAO {
                     cliente = new Cliente(
                             rs.getString("birth"),
                             rs.getBinaryStream("pdfDPI"),
-                            rs.getString("codigo"), 
-                            rs.getString("nombre"), 
-                            rs.getString("direccion"), 
-                            rs.getString("noIdentificacion"), 
+                            rs.getString("codigo"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("noIdentificacion"),
                             rs.getString("sexo"));
                 }
             }
@@ -174,20 +174,21 @@ public class ClienteDAOImpl implements ClienteDAO {
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setFloat(1, limiteDAO.getObject("1").getValor());
-            try(ResultSet rs = ps.executeQuery()) {
-            clientes = new ArrayList();
+            try ( ResultSet rs = ps.executeQuery()) {
+                clientes = new ArrayList();
 
-            while (rs.next()) {
-                Cliente cliente = new Cliente(
-                        rs.getString("birth"),
-                        rs.getBinaryStream("pdfDPI"),
-                        rs.getString("codigo"), 
-                        rs.getString("nombre"), 
-                        rs.getString("direccion"), 
-                        rs.getString("noIdentificacion"), 
-                        rs.getString("sexo"));
-                clientes.add(cliente);
-            }}
+                while (rs.next()) {
+                    Cliente cliente = new Cliente(
+                            rs.getString("birth"),
+                            rs.getBinaryStream("pdfDPI"),
+                            rs.getString("codigo"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("noIdentificacion"),
+                            rs.getString("sexo"));
+                    clientes.add(cliente);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace(System.out);
         }
@@ -204,20 +205,50 @@ public class ClienteDAOImpl implements ClienteDAO {
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setFloat(1, limiteDAO.getObject("2").getValor());
-            try(ResultSet rs = ps.executeQuery()) {
+            try ( ResultSet rs = ps.executeQuery()) {
+                clientes = new ArrayList();
+
+                while (rs.next()) {
+                    Cliente cliente = new Cliente(
+                            rs.getString("birth"),
+                            rs.getBinaryStream("pdfDPI"),
+                            rs.getString("codigo"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("noIdentificacion"),
+                            rs.getString("sexo"));
+                    clientes.add(cliente);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return clientes;
+    }
+
+    @Override
+    public List<Cliente> get10ClientesWithMoreMoney() {
+        String sql = "SELECT u.*, c.*, SUM(ct.saldo) dineroT FROM usuario u INNER JOIN cliente c "
+                + "ON u.codigo=c.codigoUsuario INNER JOIN cuenta ct ON c.codigoUsuario=ct.codigoCliente "
+                + "GROUP BY ct.codigoCliente HAVING SUM(ct.saldo) > 0 ORDER BY dineroT DESC LIMIT 10;";
+        List<Cliente> clientes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql);  
+                ResultSet rs = ps.executeQuery()) {
             clientes = new ArrayList();
 
             while (rs.next()) {
-                Cliente cliente = new Cliente(
+                ClienteDTO cliente = new ClienteDTO(
+                        rs.getFloat("dineroT"),
                         rs.getString("birth"),
                         rs.getBinaryStream("pdfDPI"),
-                        rs.getString("codigo"), 
-                        rs.getString("nombre"), 
-                        rs.getString("direccion"), 
-                        rs.getString("noIdentificacion"), 
+                        rs.getString("codigo"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("noIdentificacion"),
                         rs.getString("sexo"));
                 clientes.add(cliente);
-            }}
+            }
         } catch (SQLException e) {
             e.printStackTrace(System.out);
         }

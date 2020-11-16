@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CambioRealizado;
-import model.Cliente;
+import model.cliente.Cliente;
 import model.Empleado;
 import model.Usuario;
 

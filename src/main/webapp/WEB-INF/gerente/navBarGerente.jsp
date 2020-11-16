@@ -35,7 +35,7 @@
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte1">Historial de cambios</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte2">Clientes con transacciones mayores a un limite</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte3">Clientes con transacciones sumadas mayores a un limite</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R4</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte4">Los 10 clientes con mas dinero en sus cuentas</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R5</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R6</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R7</a>

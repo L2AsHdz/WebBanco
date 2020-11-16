@@ -6,7 +6,7 @@ import datos.cuenta.CuentaDAOImpl;
 import datos.usuario.UsuarioDAOImpl;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cliente;
+import model.cliente.Cliente;
 import model.Cuenta;
 import model.Usuario;
 import org.w3c.dom.Document;

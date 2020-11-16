@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cliente;
+import model.cliente.Cliente;
 import model.Cuenta;
 import model.Solicitud;
 
