@@ -74,7 +74,10 @@ public class ExportarRG extends HttpServlet {
             case "r3" -> {
                 Float limite = limiteDAO.getObject("2").getValor();
                 params.put("limite", limite.toString());
-                exportar(request, response, "Gerente2", params, imageDir, "Reporte3-Gerente");
+                exportar(request, response, "Gerente3", params, imageDir, "Reporte3-Gerente");
+            }
+            case "r4" -> {
+                exportar(request, response, "Gerente4", params, imageDir, "Reporte4-Gerente");
             }            
         }
     }
