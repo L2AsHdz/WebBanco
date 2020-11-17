@@ -37,7 +37,6 @@
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte3">Clientes con transacciones sumadas mayores a un limite</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte4">Los 10 clientes con mas dinero en sus cuentas</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesGerente?accion=reporte5">Clientes sin transacciones realizadas</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R6</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/gerente/reportes/reporte7.jsp">Cajero con mas transacciones en un intervalo de tiempo</a>
                     </div>
                 </li>

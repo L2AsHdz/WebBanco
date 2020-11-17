@@ -38,12 +38,7 @@
                                     <select class="form-control" name="cuentaO" id="cuentaO">
                                         <option value="">Seleccione cuenta origen...</option>
                                         <c:forEach var="cuenta" items="${cuentasPropias}">
-                                            <option value="${cuenta.codigo}" id="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.saldo}</option>
-                                            <script>
-                                                $("#${cuenta.codigo}").click(function () {
-                                                    $('#saldo').val(${cuenta.saldo});
-                                                });
-                                            </script>
+                                            <option value="${cuenta.codigo}" id="${cuenta.codigo}">${cuenta.codigo} - Saldo: Q.${cuenta.saldo}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -53,7 +48,7 @@
                                         <option value="">Seleccione cuenta destino...</option>
                                         <option value="">---Cuentas propias---</option>
                                         <c:forEach var="cuenta" items="${cuentasPropias}">
-                                            <option value="${cuenta.codigo}">${cuenta.codigo} - ${cuenta.saldo}</option>
+                                            <option value="${cuenta.codigo}">${cuenta.codigo} - Saldo: Q.${cuenta.saldo}</option>
                                         </c:forEach>
                                         <option value="">---Cuentas de terceros---</option>
                                         <c:forEach var="asociada" items="${cuentasTerceros}">

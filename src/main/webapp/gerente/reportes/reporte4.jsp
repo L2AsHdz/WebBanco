@@ -44,8 +44,8 @@
                                                 <th>Direccion</th>
                                                 <th>Fecha Nacimiento</th>
                                                 <th>No. Identificacion</th>
-                                                <th>Dinero total</th>
                                                 <th>Sexo</th>
+                                                <th>Dinero total</th>
                                             </tr>
                                         </thead>
                                         <tbody>

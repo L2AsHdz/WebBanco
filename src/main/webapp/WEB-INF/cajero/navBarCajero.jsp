@@ -21,7 +21,6 @@
 
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesCajero?accion=reporte1">Depositos y retiros del turno</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R2</a>
                     </div>
                 </li>
             </ul>

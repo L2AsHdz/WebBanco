@@ -32,7 +32,14 @@
                         <c:when test="${!empty(cajero)}">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Cajero con mas transacciones del ${fechaInicial} al ${fechaFinal}</h4>
+                                    <c:choose>
+                                        <c:when test="${empty(fechaInicial)}">
+                                            <h4>Cajero con mas transacciones</h4>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h4>Cajero con mas transacciones del ${fechaInicial} al ${fechaFinal}</h4>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="card-body">
                                     <table id="reporte7" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -95,16 +102,16 @@
         <script src="${pageContext.request.contextPath}/js/datatables.min.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $('#reporte5').DataTable({
-                    "scrollY": "200px",
-                    "scrollCollapse": true,
-                    "paging": false,
-                    "searching": false,
-                    "ordering": false
-                });
-                $('.dataTables_length').addClass('bs-select');
-            });
+                                    $(document).ready(function () {
+                                        $('#reporte5').DataTable({
+                                            "scrollY": "200px",
+                                            "scrollCollapse": true,
+                                            "paging": false,
+                                            "searching": false,
+                                            "ordering": false
+                                        });
+                                        $('.dataTables_length').addClass('bs-select');
+                                    });
         </script>
     </body>
 </html>

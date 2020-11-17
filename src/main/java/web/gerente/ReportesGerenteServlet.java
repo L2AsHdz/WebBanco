@@ -105,7 +105,7 @@ public class ReportesGerenteServlet extends HttpServlet {
             request.setAttribute("clientes", clientes);
             request.setAttribute("limite", limite);
         } else {
-            request.setAttribute("wasSetted", false);
+            request.setAttribute("wasSetted", true);
         }
         String nameR = caso.equals("reporte2") ? "reporte2" : "reporte3";
         request.getRequestDispatcher("gerente/reportes/" + nameR + ".jsp").forward(request, response);

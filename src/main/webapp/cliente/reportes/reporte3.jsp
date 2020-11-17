@@ -73,7 +73,7 @@
                                 <button type="reset" class="btn default-color mb-2 ml-2" onclick="$('#fechaInicial').focus()">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <button type="submit" class="btn btn-primary mb-2 ml-2">Ver informacion del cajero</button>
+                                <button type="submit" class="btn btn-primary mb-2 ml-2">Ver cuenta</button>
                             </form>
                             <c:if test="${!empty(noData)}">
                                 <h4>No se han realizado transacciones en el intervalo ingresado</h4>

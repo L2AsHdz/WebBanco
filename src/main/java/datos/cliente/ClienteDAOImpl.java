@@ -258,7 +258,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     public List<Cliente> getClientesSinTransacciones() {
         String sql = "SELECT t.monto, u.*, c.* from usuario u inner join cliente c on u.codigo=c.codigoUsuario"
                 + " inner join cuenta ct on c.codigoUsuario=ct.codigoCliente left join transaccion t on "
-                + "ct.codigo=t.codCuenta where t.codigo IS NULL";
+                + "ct.codigo=t.codCuenta where t.codigo IS NULL GROUP BY u.codigo";
         List<Cliente> clientes = null;
 
         try ( PreparedStatement ps = conexion.prepareStatement(sql);  
