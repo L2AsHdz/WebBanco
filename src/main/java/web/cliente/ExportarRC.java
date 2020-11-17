@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
+import model.Usuario;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -54,6 +55,18 @@ public class ExportarRC extends HttpServlet {
                 params.put("fechaInicial", fechaInicial);
                 exportar(request, response, "Cliente3", params, imageDir, "Reporte3-Cliente");
             }
+            case "r4" -> {
+                Usuario user = (Usuario) request.getSession().getAttribute("user");
+                int codCliente = user.getCodigo();
+                params.put("codCliente", codCliente);
+                exportar(request, response, "Cliente4", params, imageDir, "Reporte4-Cliente");
+            }
+            case "r5" -> {
+                Usuario user = (Usuario) request.getSession().getAttribute("user");
+                int codCliente = user.getCodigo();
+                params.put("codCliente", codCliente);
+                exportar(request, response, "Cliente5", params, imageDir, "Reporte5-Cliente");
+            }            
         }
     }
     

@@ -60,6 +60,7 @@ public class ReportesCliente extends HttpServlet {
                 List<Solicitud> solicitudes = solicitudDAO.getSolicitudesRecibidas(codCliente);
 
                 request.setAttribute("solicitudes", solicitudes);
+                request.setAttribute("codCliente", this);
                 request.getRequestDispatcher("cliente/reportes/reporte4.jsp").forward(request, response);
             }
             case "reporte5" -> {

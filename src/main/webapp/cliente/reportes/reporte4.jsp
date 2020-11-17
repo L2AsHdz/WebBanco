@@ -31,8 +31,11 @@
                     <c:choose>
                         <c:when test="${!empty(solicitudes)}">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>Solicitudes recibidas</h4>
+                                    <a href="${pageContext.request.contextPath}/exportarRC?reporte=r4" class="btn default-color btn-sm">
+                                        <i class="fas fa-download"></i> Descargar
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <table id="reporteC4" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">

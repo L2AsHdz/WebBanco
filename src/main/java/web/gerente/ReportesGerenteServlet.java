@@ -81,6 +81,7 @@ public class ReportesGerenteServlet extends HttpServlet {
                     request.setAttribute("fechaInicial", fechaInicial);
                     request.setAttribute("fechaFinal", fechaFinal);
                     request.setAttribute("cajero", cajero);
+                    request.getSession().setAttribute("cajeroR", cajero);
                 } else {
                     request.setAttribute("noData", true);
                 }

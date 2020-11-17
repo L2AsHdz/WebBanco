@@ -168,7 +168,7 @@ public class EmpleadoDAOImpl implements EmpleadoDAO {
         String sql = "SELECT COUNT(tr.codigo) transacciones, u.*, t.nombre turno FROM usuario u INNER JOIN empleado e "
                 + "ON u.codigo=e.codigoUsuario INNER JOIN turno t ON e.idTurno=t.id INNER JOIN transaccion tr ON "
                 + "u.codigo=tr.codCajero";
-        String interavalo = " WHERE tr.fecha BETWEEN ? AND ?";
+        String interavalo = " WHERE (tr.fecha BETWEEN ? AND ?) AND u.codigo != 101";
         String order = " GROUP BY u.codigo ORDER BY transacciones DESC LIMIT 1";
         CajeroDTO empleado = null;
         PreparedStatement ps = null;

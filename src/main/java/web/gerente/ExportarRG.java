@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
+import model.CajeroDTO;
+import model.Empleado;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -66,6 +68,16 @@ public class ExportarRG extends HttpServlet {
             }
             case "r4" -> {
                 exportar(request, response, "Gerente4", params, imageDir, "Reporte4-Gerente");
+            }
+            case "r7" -> {
+                CajeroDTO cajero = (CajeroDTO) request.getSession().getAttribute("cajeroR");
+                params.put("codigo", cajero.getCodigo());
+                params.put("nombre", cajero.getNombre());
+                params.put("direccion", cajero.getDireccion());
+                params.put("identificacion", cajero.getNoIdentificacion());
+                params.put("turno", cajero.getTurno().getNombre());
+                params.put("total", cajero.getTotalTransacciones());
+                exportar(request, response, "Gerente7", params, imageDir, "Reporte7-Gerente");
             }            
         }
     }

@@ -31,7 +31,7 @@
                     <c:choose>
                         <c:when test="${!empty(cajero)}">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between">
                                     <c:choose>
                                         <c:when test="${empty(fechaInicial)}">
                                             <h4>Cajero con mas transacciones</h4>
@@ -40,6 +40,9 @@
                                             <h4>Cajero con mas transacciones del ${fechaInicial} al ${fechaFinal}</h4>
                                         </c:otherwise>
                                     </c:choose>
+                                    <a href="${pageContext.request.contextPath}/exportarRG?reporte=r7" class="btn default-color btn-sm">
+                                        <i class="fas fa-download"></i> Descargar
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <table id="reporte7" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">

@@ -163,7 +163,7 @@ public class SolicitudDAOImpl implements SolicitudDAO {
     @Override
     public List<Solicitud> getSolicitudesRecibidas(String codCliente) {
         String sql = "SELECT s.id, s.codCuenta, u.codigo, u.nombre, u.noIdentificacion, "
-                + "s.estado, s.fecha FROM solicitudAsociacion s INNER JOIN usuario u ON "
+                + "s.estado, s.fecha, c.codigoCliente FROM solicitudAsociacion s INNER JOIN usuario u ON "
                 + "s.codCliente=u.codigo INNER JOIN cuenta c ON s.codCuenta=c.codigo WHERE "
                 + "c.codigoCliente = ?";
         List<Solicitud> solicitudes = null;
@@ -179,6 +179,7 @@ public class SolicitudDAOImpl implements SolicitudDAO {
                     cliente.setNoIdentificacion(rs.getString("noIdentificacion"));
                     
                     Cuenta cuenta = new Cuenta(rs.getString("codCuenta"));
+                    cuenta.setCliente(new Cliente(rs.getString("codigoCliente")));
                     
                     Solicitud solicitud = new Solicitud();
                     solicitud.setId(rs.getInt("id"));
