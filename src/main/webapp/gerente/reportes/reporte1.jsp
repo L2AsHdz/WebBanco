@@ -31,8 +31,11 @@
                     <c:choose>
                         <c:when test="${!empty(cambios)}">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>Historial de cambios</h4>
+                                    <a href="${pageContext.request.contextPath}/exportarRG" class="btn default-color btn-sm">
+                                        <i class="fas fa-download"></i> Descargar
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <table id="historialCambios" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
