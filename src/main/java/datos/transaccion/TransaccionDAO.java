@@ -16,4 +16,5 @@ public interface TransaccionDAO extends CRUD<Transaccion> {
     List<Transaccion> getDepositosTurno(int codCajero);
     float getTotalRetiroTurno(int codCajero);
     float getTotalDepositoTurno(int codCajero);
+    List<Transaccion> getTransaccionesCuenta(int codCuenta);
 }

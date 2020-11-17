@@ -1,4 +1,4 @@
-package model;
+package model.cuenta;
 
 import model.cliente.Cliente;
 import java.io.Serializable;

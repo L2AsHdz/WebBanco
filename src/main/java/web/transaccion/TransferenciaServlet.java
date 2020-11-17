@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 import model.CuentaAsociada;
 import model.Empleado;
 import model.Transaccion;

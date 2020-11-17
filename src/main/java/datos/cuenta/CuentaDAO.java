@@ -2,7 +2,7 @@ package datos.cuenta;
 
 import datos.CRUD;
 import java.util.List;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 
 /**
  * @date 11/11/2020
@@ -14,4 +14,5 @@ public interface CuentaDAO extends CRUD<Cuenta> {
     String crear(Cuenta c);
     void updateSaldo(String codigo, float monto);
     List<Cuenta> getCuentasPropias(int codCliente);
+    List<Cuenta> getCuentasWithTransacciones(int codCliente);
 }

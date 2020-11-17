@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.cliente.Cliente;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 import model.CuentaAsociada;
 
 /**

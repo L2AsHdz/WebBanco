@@ -25,16 +25,14 @@
         <jsp:include page="/WEB-INF/cajero/navBarCajero.jsp" />
 
         <div class="container-fluid my-5 pl-4">
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-xl-8">
                     <!-- Retiros -->
                     <c:choose>
                         <c:when test="${!empty(retiros)}">
                             <div class="card">
-                                <div class="card-header">
-                                    <h4>Retiros realizados en el turno</h4>
-                                </div>
                                 <div class="card-body">
+                                    <h3>Retiros realizados en el turno</h3>
                                     <table id="reporte1R" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                         <thead class="thead-dark">
                                             <tr>
@@ -70,10 +68,8 @@
                     <c:choose>
                         <c:when test="${!empty(depositos)}">
                             <div class="card mt-4">
-                                <div class="card-header">
-                                    <h4>Depositos realizados en el turno</h4>
-                                </div>
                                 <div class="card-body">
+                                    <h3>Depositos realizados en el turno</h3>
                                     <table id="reporte1D" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                         <thead class="thead-dark">
                                             <tr>
@@ -106,7 +102,7 @@
                     </c:choose>
 
                 </div>
-                <div class="col-xl-3">
+                <div class="col-xl-3 my-auto">
                     <div class="card text-center success-color-dark text-white">
                         <div class="card-body">
                             <h3>Total depositado</h3>

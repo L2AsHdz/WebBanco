@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 import model.Empleado;
 import model.Transaccion;
 
@@ -198,6 +198,36 @@ public class TransaccionDAOImpl implements TransaccionDAO {
             ex.printStackTrace(System.out);
         }
         return total;
+    }
+
+    @Override
+    public List<Transaccion> getTransaccionesCuenta(int codCuenta) {
+        String sql = "SELECT t.* FROM transaccion t INNER JOIN cuenta c ON t.codCuenta=c.codigo "
+                + "WHERE c.codigo = ? AND (t.fecha BETWEEN DATE_SUB(NOW(), interval 1 YEAR) "
+                + "AND NOW()) ORDER BY t.monto DESC LIMIT 15";
+        List<Transaccion> transacciones = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCuenta);
+            try ( ResultSet rs = ps.executeQuery()) {
+            transacciones = new ArrayList();
+                while (rs.next()) {
+                    Transaccion transaccion = new Transaccion(
+                            rs.getString("codigo"),
+                            new Cuenta(rs.getString("codCuenta")),
+                            "DEBITO",
+                            rs.getString("fecha"),
+                            rs.getString("hora"),
+                            rs.getString("monto"),
+                            new Empleado(rs.getString("codCajero")),
+                            rs.getString("saldoCuenta"));
+                    transacciones.add(transaccion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return transacciones;
     }
 
 }

@@ -1,6 +1,8 @@
 package datos.cuenta;
 
 import datos.Conexion;
+import datos.transaccion.TransaccionDAO;
+import datos.transaccion.TransaccionDAOImpl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.cliente.Cliente;
-import model.Cuenta;
+import model.cuenta.Cuenta;
+import model.cuenta.CuentaDTO;
 
 /**
  * @date 11/11/2020
@@ -19,6 +22,7 @@ public class CuentaDAOImpl implements CuentaDAO {
 
     private static CuentaDAOImpl cuentaDAO = null;
     private final Connection conexion = Conexion.getConexion();
+    private final TransaccionDAO transaccionDAO = TransaccionDAOImpl.getTransaccionDAO();
 
     private CuentaDAOImpl() {
     }
@@ -156,6 +160,30 @@ public class CuentaDAOImpl implements CuentaDAO {
                             new Cliente(String.valueOf(codCliente)),
                             rs.getString("fechaCreacion"),
                             rs.getString("saldo"));
+                    cuentas.add(cuenta);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return cuentas;
+    }
+
+    @Override
+    public List<Cuenta> getCuentasWithTransacciones(int codCliente) {
+        String sql = "SELECT codigo FROM cuenta WHERE codigoCliente = ?";
+        List<Cuenta> cuentas = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCliente);
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                cuentas = new ArrayList();
+                while (rs.next()) {
+                    int codCuenta = rs.getInt("codigo");
+                    CuentaDTO cuenta = new CuentaDTO(
+                            transaccionDAO.getTransaccionesCuenta(codCuenta),
+                            rs.getString("codigo"));
                     cuentas.add(cuenta);
                 }
             }

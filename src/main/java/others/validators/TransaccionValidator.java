@@ -4,7 +4,7 @@ import datos.CRUD;
 import datos.cuenta.CuentaDAOImpl;
 import datos.transaccion.TransaccionDAOImpl;
 import datos.usuario.UsuarioDAOImpl;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 import model.Empleado;
 import model.Transaccion;
 import model.Usuario;

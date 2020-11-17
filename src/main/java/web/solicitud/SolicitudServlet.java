@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.cliente.Cliente;
-import model.Cuenta;
+import model.cuenta.Cuenta;
 import model.CuentaAsociada;
 import model.Solicitud;
 import model.Usuario;
