@@ -15,4 +15,5 @@ public interface CuentaDAO extends CRUD<Cuenta> {
     void updateSaldo(String codigo, float monto);
     List<Cuenta> getCuentasPropias(int codCliente);
     List<Cuenta> getCuentasWithTransacciones(int codCliente);
+    Cuenta getCuentaConMasDinero(int codCliente, String fechaInicial);
 }

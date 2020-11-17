@@ -193,4 +193,27 @@ public class CuentaDAOImpl implements CuentaDAO {
         return cuentas;
     }
 
+    @Override
+    public Cuenta getCuentaConMasDinero(int codCliente, String fechaInicial) {
+        String sql = "SELECT * FROM cuenta WHERE codigoCliente = ? ORDER BY saldo desc LIMIT 1";
+        Cuenta cuenta = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCliente);
+            try ( ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    int codCuenta = rs.getInt("codigo");
+                    cuenta = new CuentaDTO(
+                            transaccionDAO.getTransaccionesInteval(codCuenta, fechaInicial),
+                            rs.getString("codigo"));
+                    cuenta.setSaldo(rs.getFloat("saldo"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return cuenta;
+    }
+
 }

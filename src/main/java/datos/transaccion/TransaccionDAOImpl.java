@@ -215,7 +215,36 @@ public class TransaccionDAOImpl implements TransaccionDAO {
                     Transaccion transaccion = new Transaccion(
                             rs.getString("codigo"),
                             new Cuenta(rs.getString("codCuenta")),
-                            "DEBITO",
+                            rs.getString("tipo"),
+                            rs.getString("fecha"),
+                            rs.getString("hora"),
+                            rs.getString("monto"),
+                            new Empleado(rs.getString("codCajero")),
+                            rs.getString("saldoCuenta"));
+                    transacciones.add(transaccion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return transacciones;
+    }
+
+    @Override
+    public List<Transaccion> getTransaccionesInteval(int codCuenta, String fechaInicial) {
+        String sql = "SELECT * FROM transaccion WHERE codCuenta = ? AND (fecha BETWEEN ? AND NOW()) ORDER BY fecha, hora";
+        List<Transaccion> transacciones = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, codCuenta);
+            ps.setString(2, fechaInicial);
+            try ( ResultSet rs = ps.executeQuery()) {
+            transacciones = new ArrayList();
+                while (rs.next()) {
+                    Transaccion transaccion = new Transaccion(
+                            rs.getString("codigo"),
+                            new Cuenta(rs.getString("codCuenta")),
+                            rs.getString("tipo"),
                             rs.getString("fecha"),
                             rs.getString("hora"),
                             rs.getString("monto"),

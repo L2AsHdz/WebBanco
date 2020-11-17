@@ -19,7 +19,7 @@ import model.cuenta.Cuenta;
  */
 @WebServlet("/ReportesCliente")
 public class ReportesCliente extends HttpServlet {
-    
+
     private final CuentaDAO cuentaDAO = CuentaDAOImpl.getCuentaDAO();
 
     @Override
@@ -34,16 +34,23 @@ public class ReportesCliente extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        
+        Usuario user = (Usuario) request.getSession().getAttribute("user");
+
         switch (accion) {
             case "reporte1" -> {
-                Usuario user = (Usuario) request.getSession().getAttribute("user");
                 List<Cuenta> cuentas = cuentaDAO.getCuentasWithTransacciones(user.getCodigo());
-                
+
                 cuentas.forEach(cuenta -> System.out.println(cuenta.getCodigo()));
                 request.setAttribute("cuentas", cuentas);
                 request.getRequestDispatcher("cliente/reportes/reporte1.jsp").forward(request, response);
+            }
+            case "reporte3" -> {
+                String fechaInicial = request.getParameter("fechaInicial");
+                Cuenta cuenta = cuentaDAO.getCuentaConMasDinero(user.getCodigo(), fechaInicial);
                 
+                request.setAttribute("cuenta", cuenta);
+                request.getRequestDispatcher("cliente/reportes/reporte3.jsp").forward(request, response);
+
             }
         }
     }
