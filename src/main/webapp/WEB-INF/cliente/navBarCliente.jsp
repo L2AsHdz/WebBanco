@@ -25,8 +25,8 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesCliente?accion=reporte1">Ultimas 15 transacciones mas grandes del ultimo año</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/cliente/reportes/reporte3.jsp">Cuenta con mas dinero con sus transacciones</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R4</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/#">R5</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesCliente?accion=reporte4">Historial de solicitudes recibidas</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ReportesCliente?accion=reporte5">Historial de solicitudes enviadas</a>
                     </div>
                 </li>
             </ul>

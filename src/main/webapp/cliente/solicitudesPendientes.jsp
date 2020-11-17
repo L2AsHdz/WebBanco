@@ -45,6 +45,7 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>#</th>
+                                        <th>Cuenta solicitada</th>
                                         <th>No. Identificacion solicitante</th>
                                         <th>Nombre solicitante</th>
                                         <th>Fecha solicitud</th>
@@ -56,6 +57,7 @@
                                     <c:forEach var="solicitud" items="${solicitudes}" varStatus="status">
                                         <tr>
                                             <td>${status.count}</td>
+                                            <td>${solicitud.cuenta.codigo}</td>
                                             <td>${solicitud.cliente.noIdentificacion}</td>
                                             <td>${solicitud.cliente.nombre}</td>
                                             <td>${solicitud.fecha}</td>

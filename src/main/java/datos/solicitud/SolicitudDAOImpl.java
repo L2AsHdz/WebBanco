@@ -160,4 +160,77 @@ public class SolicitudDAOImpl implements SolicitudDAO {
         }
     }
 
+    @Override
+    public List<Solicitud> getSolicitudesRecibidas(String codCliente) {
+        String sql = "SELECT s.id, s.codCuenta, u.codigo, u.nombre, u.noIdentificacion, "
+                + "s.estado, s.fecha FROM solicitudAsociacion s INNER JOIN usuario u ON "
+                + "s.codCliente=u.codigo INNER JOIN cuenta c ON s.codCuenta=c.codigo WHERE "
+                + "c.codigoCliente = ?";
+        List<Solicitud> solicitudes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codCliente));
+            try ( ResultSet rs = ps.executeQuery()) {
+            solicitudes = new ArrayList();
+                while (rs.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setCodigo(rs.getInt("codigo"));
+                    cliente.setNombre(rs.getString("nombre"));
+                    cliente.setNoIdentificacion(rs.getString("noIdentificacion"));
+                    
+                    Cuenta cuenta = new Cuenta(rs.getString("codCuenta"));
+                    
+                    Solicitud solicitud = new Solicitud();
+                    solicitud.setId(rs.getInt("id"));
+                    solicitud.setFecha(LocalDate.parse(rs.getString("fecha")));
+                    solicitud.setEstadoN(rs.getInt("estado"));
+                    solicitud.setCliente(cliente);
+                    solicitud.setCuenta(cuenta);
+                    solicitudes.add(solicitud);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return solicitudes;
+    }
+
+    @Override
+    public List<Solicitud> getSolicitudesEnviadas(String codCliente) {
+        String sql = "SELECT s.*, u.codigo, u.nombre FROM solicitudAsociacion s INNER JOIN "
+                + "cuenta c ON s.codCuenta=c.codigo INNER JOIN usuario u ON c.codigoCliente=u.codigo "
+                + "WHERE s.codCliente = ?";
+        List<Solicitud> solicitudes = null;
+
+        try ( PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(codCliente));
+            try ( ResultSet rs = ps.executeQuery()) {
+            solicitudes = new ArrayList();
+                while (rs.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setCodigo(rs.getInt("codCliente"));
+                    
+                    Cliente clienteS = new Cliente();
+                    clienteS.setCodigo(rs.getInt("codigo"));
+                    clienteS.setNombre(rs.getString("nombre"));
+                    
+                    Cuenta cuenta = new Cuenta(rs.getString("codCuenta"));
+                    cuenta.setCliente(clienteS);
+                    
+                    
+                    Solicitud solicitud = new Solicitud();
+                    solicitud.setId(rs.getInt("id"));
+                    solicitud.setFecha(LocalDate.parse(rs.getString("fecha")));
+                    solicitud.setEstadoN(rs.getInt("estado"));
+                    solicitud.setCliente(cliente);
+                    solicitud.setCuenta(cuenta);
+                    solicitudes.add(solicitud);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+        return solicitudes;
+    }
+
 }

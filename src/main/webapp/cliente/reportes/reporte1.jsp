@@ -27,7 +27,7 @@
         <!-- 15 transacciones mas grandes -->
         <div class="container-fluid my-5 pl-4">
             <div class="row">
-                <div class="col-xl-10">
+                <div class="col-xl-8">
                     <c:choose>
                         <c:when test="${!empty(cuentas)}">
                             <c:forEach var="cuenta" items="${cuentas}">

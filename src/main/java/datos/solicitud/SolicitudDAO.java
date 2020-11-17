@@ -14,5 +14,7 @@ public interface SolicitudDAO extends CRUD<Solicitud> {
     boolean isPendiente(int codCliente, String codCuenta);
     boolean isAvailable(int codCliente, String codCuenta);
     List<Solicitud> getSolicitudesPendientes(String codCliente);
+    List<Solicitud> getSolicitudesRecibidas(String codCliente);
+    List<Solicitud> getSolicitudesEnviadas(String codCliente);
     void updateEstado(String id, int estado);
 }

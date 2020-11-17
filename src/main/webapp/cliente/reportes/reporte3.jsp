@@ -27,7 +27,7 @@
         <!-- Cuenta con mas dinero con sus transacciones -->
         <div class="container-fluid my-5 pl-4">
             <div class="row">
-                <div class="col-xl-10">
+                <div class="col-xl-8">
                     <c:choose>
                         <c:when test="${!empty(cuenta)}">
                             <div class="card">
@@ -91,16 +91,16 @@
         <script src="${pageContext.request.contextPath}/js/datatables.min.js"></script>
 
         <script>
-                                    $(document).ready(function () {
-                                        $('#reporteC3').DataTable({
-                                            "scrollY": "200px",
-                                            "scrollCollapse": true,
-                                            "paging": false,
-                                            "searching": false,
-                                            "ordering": false
-                                        });
-                                        $('.dataTables_length').addClass('bs-select');
-                                    });
+            $(document).ready(function () {
+                $('#reporteC3').DataTable({
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "paging": false,
+                    "searching": false,
+                    "ordering": false
+                });
+                $('.dataTables_length').addClass('bs-select');
+            });
         </script>
     </body>
 </html>
