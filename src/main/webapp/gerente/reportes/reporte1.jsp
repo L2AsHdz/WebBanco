@@ -33,7 +33,7 @@
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
                                     <h4>Historial de cambios</h4>
-                                    <a href="${pageContext.request.contextPath}/exportarRG" class="btn default-color btn-sm">
+                                    <a href="${pageContext.request.contextPath}/exportarRG?reporte=r1" class="btn default-color btn-sm">
                                         <i class="fas fa-download"></i> Descargar
                                     </a>
                                 </div>

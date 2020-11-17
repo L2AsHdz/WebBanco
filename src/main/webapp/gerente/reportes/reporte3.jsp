@@ -31,8 +31,11 @@
                     <c:choose>
                         <c:when test="${!empty(clientes)}">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>Clientes con transacciones sumadas mayores a Q.${limite}</h4>
+                                    <a href="${pageContext.request.contextPath}/exportarRG?reporte=r3" class="btn default-color btn-sm">
+                                        <i class="fas fa-download"></i> Descargar
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <table id="reporte3" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">

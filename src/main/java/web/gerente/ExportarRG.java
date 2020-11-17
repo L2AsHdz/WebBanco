@@ -3,6 +3,8 @@ package web.gerente;
 import datos.CRUD;
 import datos.Conexion;
 import datos.cambioRealizado.CambioRealizadoDAOImpl;
+import datos.limite.LimiteDAO;
+import datos.limite.LimiteDAOImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,6 +41,8 @@ import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 @WebServlet("/exportarRG")
 public class ExportarRG extends HttpServlet {
 
+    private final LimiteDAO limiteDAO = LimiteDAOImpl.getLimiteDAO();
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -50,18 +54,41 @@ public class ExportarRG extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String reporte = request.getParameter("reporte");
+
+        response.setContentType("application/pdf");
+
+        String imageDir = request.getServletContext().getRealPath("/resources/");
+        Map<String, Object> params = new HashMap<>();
+        params.put("imagesDir", imageDir);
+
+        switch (reporte) {
+            case "r1" -> {
+                exportar(request, response, "Gerente1", params, imageDir, "HistorialCambios");
+            }
+            case "r2" -> {
+                Float limite = limiteDAO.getObject("1").getValor();
+                params.put("limite", limite.toString());
+                exportar(request, response, "Gerente2", params, imageDir, "Reporte2-Gerente");
+            }
+            case "r3" -> {
+                Float limite = limiteDAO.getObject("2").getValor();
+                params.put("limite", limite.toString());
+                exportar(request, response, "Gerente2", params, imageDir, "Reporte3-Gerente");
+            }            
+        }
+    }
+
+    private void exportar(HttpServletRequest request, HttpServletResponse response,
+            String nameReporte, Map<String, Object> params, String imageDir, String namePDF) throws ServletException, IOException {
+        
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+namePDF+".pdf");
+        
         try {
 
-            response.setContentType("application/pdf");
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=HistorialCambios.pdf");
-
-            String imageDir = request.getServletContext().getRealPath("/resources/");
-
-            InputStream inputStream = new FileInputStream(imageDir+"Gerente1.jasper");
+            InputStream inputStream = new FileInputStream(imageDir + nameReporte + ".jasper");
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
 
-            Map<String, Object> params = new HashMap<>();
-            params.put("imagesDir", imageDir);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, Conexion.getConexion());
             JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 
