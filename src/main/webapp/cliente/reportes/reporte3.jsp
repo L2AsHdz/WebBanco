@@ -31,8 +31,11 @@
                     <c:choose>
                         <c:when test="${!empty(cuenta)}">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between">
                                     <h4>Cuenta con mas dinero</h4>
+                                    <a href="${pageContext.request.contextPath}/exportarRC?reporte=r3&codCuenta=${cuenta.codigo}&fecha=${fechaInicial}" class="btn default-color btn-sm">
+                                        <i class="fas fa-download"></i> Descargar
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <div class="card-title">Cuenta: ${cuenta.codigo}   -   Saldo: ${cuenta.saldo}</div>

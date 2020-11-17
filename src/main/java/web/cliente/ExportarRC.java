@@ -1,8 +1,6 @@
-package web.gerente;
+package web.cliente;
 
 import datos.Conexion;
-import datos.limite.LimiteDAO;
-import datos.limite.LimiteDAOImpl;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,14 +21,12 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @date 17/11/2020
- * @time 03:56:39
+ * @time 10:00:12
  * @author asael
  */
-@WebServlet("/exportarRG")
-public class ExportarRG extends HttpServlet {
+@WebServlet("/exportarRC")
+public class ExportarRC extends HttpServlet {
 
-    private final LimiteDAO limiteDAO = LimiteDAOImpl.getLimiteDAO();
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -51,25 +47,16 @@ public class ExportarRG extends HttpServlet {
         params.put("imagesDir", imageDir);
 
         switch (reporte) {
-            case "r1" -> {
-                exportar(request, response, "Gerente1", params, imageDir, "HistorialCambios");
-            }
-            case "r2" -> {
-                Float limite = limiteDAO.getObject("1").getValor();
-                params.put("limite", limite.toString());
-                exportar(request, response, "Gerente2", params, imageDir, "Reporte2-Gerente");
-            }
             case "r3" -> {
-                Float limite = limiteDAO.getObject("2").getValor();
-                params.put("limite", limite.toString());
-                exportar(request, response, "Gerente3", params, imageDir, "Reporte3-Gerente");
+                int codCuenta = Integer.parseInt(request.getParameter("codCuenta"));
+                String fechaInicial = request.getParameter("fecha");
+                params.put("codCuenta", codCuenta);
+                params.put("fechaInicial", fechaInicial);
+                exportar(request, response, "Cliente3", params, imageDir, "Reporte3-Cliente");
             }
-            case "r4" -> {
-                exportar(request, response, "Gerente4", params, imageDir, "Reporte4-Gerente");
-            }            
         }
     }
-
+    
     private void exportar(HttpServletRequest request, HttpServletResponse response,
             String nameReporte, Map<String, Object> params, String imageDir, String namePDF) throws ServletException, IOException {
         

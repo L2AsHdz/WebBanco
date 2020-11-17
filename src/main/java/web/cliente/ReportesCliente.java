@@ -53,6 +53,7 @@ public class ReportesCliente extends HttpServlet {
                 Cuenta cuenta = cuentaDAO.getCuentaConMasDinero(user.getCodigo(), fechaInicial);
 
                 request.setAttribute("cuenta", cuenta);
+                request.setAttribute("fechaInicial", fechaInicial);
                 request.getRequestDispatcher("cliente/reportes/reporte3.jsp").forward(request, response);
             }
             case "reporte4" -> {
